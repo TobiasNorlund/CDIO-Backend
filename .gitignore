@@ -1,3 +1,6 @@
+configuration.xml
+system.log
+
 *.class
 
 # Maven
