@@ -7,7 +7,7 @@ import edu.wildlifesecurity.framework.IEventHandler;
 import edu.wildlifesecurity.framework.LogEvent;
 
 
-public class temp {
+public class FileRepositoryTest {
 
 	public static void main(String[] args) {
 		FileRepository fr = new FileRepository();

@@ -1,8 +1,12 @@
 package edu.wildlifesecurity.backend.communicatorserver.impl;
 
+import java.util.Map;
+
 import edu.wildlifesecurity.framework.EventType;
 import edu.wildlifesecurity.framework.IEventHandler;
+import edu.wildlifesecurity.framework.ILogger;
 import edu.wildlifesecurity.framework.ISubscription;
+import edu.wildlifesecurity.framework.Message;
 import edu.wildlifesecurity.framework.MessageEvent;
 
 /**
@@ -10,7 +14,12 @@ import edu.wildlifesecurity.framework.MessageEvent;
  * @author Tobias
  *
  */
-public class SmsChannel implements IChannel {
+public class SmsChannel extends AbstractChannel {
+
+	protected SmsChannel(ILogger logger, Map<String, Object> config) {
+		super(logger, config);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public ISubscription addEventHandler(EventType type,
@@ -20,9 +29,15 @@ public class SmsChannel implements IChannel {
 	}
 
 	@Override
-	public void sendMessage(String message) {
+	public void sendMessage(Message message) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void startListen() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
