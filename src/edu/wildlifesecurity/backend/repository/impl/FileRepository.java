@@ -94,8 +94,11 @@ public class FileRepository extends AbstractComponent implements IRepository {
 	private void log(String prio, String msg){
 		// Use log writer to store the log message
 		try{
-			String logEntry = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "\t" + prio + "\t" + msg + "\n";
+			String logEntry = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "\t" + prio + "\t" + msg + "\r\n";
 			logWriter.append(logEntry);
+			logWriter.flush();
+			
+			System.out.print(logEntry);
 			
 			// Dispatch log event
 			EventType type; 

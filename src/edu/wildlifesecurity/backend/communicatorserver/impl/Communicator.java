@@ -4,11 +4,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Constructor;
 import java.util.Base64;
+import java.util.Map;
 
 import edu.wildlifesecurity.framework.AbstractComponent;
 import edu.wildlifesecurity.framework.EventType;
 import edu.wildlifesecurity.framework.IEventHandler;
+import edu.wildlifesecurity.framework.ILogger;
 import edu.wildlifesecurity.framework.ISubscription;
 import edu.wildlifesecurity.framework.Message;
 import edu.wildlifesecurity.framework.MessageEvent;
@@ -24,7 +27,9 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 		try{
 			
 			// Read from configuration which channels to use
-			channel = (AbstractChannel) Class.forName(configuration.get("CommunicatorServer_Channel").toString()).newInstance();
+			Class<?> cl = Class.forName(configuration.get("CommunicatorServer_Channel").toString());
+			Constructor<?> cons = cl.getConstructor(ILogger.class, Map.class);
+			channel = (AbstractChannel) cons.newInstance(log, configuration);
 			
 			// Start listening for trap devices
 			channel.startListen();

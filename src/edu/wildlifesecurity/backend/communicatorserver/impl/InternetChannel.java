@@ -60,7 +60,7 @@ public class InternetChannel extends AbstractChannel {
 				try {
 					trapDeviceConnections =  new LinkedList<TrapDeviceConnection>();
 					server = AsynchronousServerSocketChannel.open();
-					server.bind(new InetSocketAddress((Integer)configuration.get("CommunicationServer_Port")));
+					server.bind(new InetSocketAddress(Integer.parseInt(configuration.get("CommunicatorServer_Port").toString())));
 					
 					log.info("TCP server started. Waiting for connections...");
 					
@@ -112,8 +112,8 @@ public class InternetChannel extends AbstractChannel {
 		public void completed(Integer result, ByteBuffer buffer)
         {
             buffer.flip();
-            String msgReceived = Charset.defaultCharset().decode(buffer).toString();
-            log.info("Msg received from the client " + id + ": " + msgReceived);
+            String msgReceived = Charset.defaultCharset().decode(buffer).toString().replaceAll("\\n", "");
+            log.info("TrapDevice " + id + ": " + msgReceived);
             eventDispatcher.dispatch(
             		new MessageEvent(MessageEvent.getEventType(msgReceived.split(",")[0]), 
             				new Message(msgReceived, id)));
@@ -128,7 +128,7 @@ public class InternetChannel extends AbstractChannel {
  
         public void sendMessage(String message){
         	try {
-				connection.write(ByteBuffer.wrap(message.getBytes())).get();
+				connection.write(ByteBuffer.wrap((message + "\n").getBytes())).get();
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 				log.error("Error in InternetChannel. Could not send data to client: " + e.getMessage());

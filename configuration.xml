@@ -1,7 +1,7 @@
 <configuration>
     
     <!-- MediaSource Component -->
-	<MediaSource_FrameRate>500</MediaSource_FrameRate>
+	<MediaSource_FrameRate>1000</MediaSource_FrameRate>
 	
 	<!-- Detection Component -->
 	<Detection_InitTime>500</Detection_InitTime>
@@ -16,11 +16,11 @@
 	<!-- ... ex numbers to sms alarms to -->
 	
 	<!-- CommunicatorServer Component -->
-	<CommuncatorServer_Channel>edu.wildlifesecurity.backend.communicatorserver.impl.InternetChannel</CommuncatorServer_Channel>
-	<CommuncatorServer_Port>9090</CommuncatorServer_Port>
+	<CommunicatorServer_Channel>edu.wildlifesecurity.backend.communicatorserver.impl.InternetChannel</CommunicatorServer_Channel>
+	<CommunicatorServer_Port>9090</CommunicatorServer_Port>
 	
 	<!-- CommunicatorClient Component -->
-	<CommuncatorClient_Channel>edu.wildlifesecurity.trapdevice.communicatorclient.impl.InternetChannel</CommuncatorServer_Channel>
+	<CommunicatorClient_Channel>edu.wildlifesecurity.trapdevice.communicatorclient.impl.InternetChannel</CommunicatorClient_Channel>
 	
 
 </configuration>
