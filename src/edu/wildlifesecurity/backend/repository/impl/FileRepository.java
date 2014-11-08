@@ -2,6 +2,7 @@ package edu.wildlifesecurity.backend.repository.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,11 +11,17 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.opencv.core.Mat;
+import org.opencv.highgui.Highgui;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.Converter;
@@ -31,6 +38,7 @@ import edu.wildlifesecurity.framework.IEventHandler;
 import edu.wildlifesecurity.framework.ISubscription;
 import edu.wildlifesecurity.framework.LogEvent;
 import edu.wildlifesecurity.framework.repository.IRepository;
+import edu.wildlifesecurity.framework.tracking.Capture;
 
 /**
  * Implements a repository which uses files to store configuration and logging
@@ -69,6 +77,65 @@ public class FileRepository extends AbstractComponent implements IRepository {
 	         ioe.printStackTrace();
 	         error("Error in FileRepository. Could not load configuration file:\n" + ioe.getMessage()); 
 	     }
+	}
+	
+	/**
+	 * Stores a capture
+	 * 
+	 * @param capture
+	 */
+	public void storeCapture(Capture capture){
+		try {
+			List<Capture> captures = getCaptureDefinitions();
+			
+			FileWriter fw = new FileWriter("Captures.xml", false);
+			XStream magicApi = new XStream();
+			magicApi.alias("Capture", Capture.class);
+			magicApi.omitField(Capture.class, "image");
+
+			captures.add(capture);
+			
+			fw.write(magicApi.toXML(captures));
+			fw.close();
+			
+			if(capture.image != null){
+				Highgui.imwrite("Captures/"+capture.captureId+".png", capture.image);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			error("Error in FileRepository. Could not store a new capture: " + e.getMessage());
+		}
+
+	}
+	
+	/**
+	 * Fetches all definitions
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Capture> getCaptureDefinitions() {
+		try{
+			FileReader reader = new FileReader("captures.xml");
+	        XStream magicApi = new XStream();
+	        magicApi.alias("Capture", Capture.class);
+			magicApi.omitField(Capture.class, "image");
+	        
+	        List<Capture> captures = (List<Capture>)magicApi.fromXML(reader);
+	        
+	        reader.close();
+	        
+	        return captures;
+	        
+	     }catch(IOException ioe){
+	         ioe.printStackTrace();
+	         error("Error in FileRepository. Could not load configuration file:\n" + ioe.getMessage());
+	         return new ArrayList<Capture>();
+	     }
+	}
+
+	@Override
+	public Mat getCaptureImage(Capture capture) {
+		return Highgui.imread("Captures/" + capture.captureId);
 	}
 
 	@Override
@@ -130,7 +197,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 		}
 	}
 	
-	public static class MapEntryConverter implements Converter {
+	private static class MapEntryConverter implements Converter {
 
         public boolean canConvert(Class clazz) {
             return AbstractMap.class.isAssignableFrom(clazz);
@@ -166,5 +233,46 @@ public class FileRepository extends AbstractComponent implements IRepository {
         }
 
     }
+	
+	private static class CaptureConverter implements Converter {
+
+		@Override
+		public boolean canConvert(Class clazz) {
+			return Capture.class.isAssignableFrom(clazz);
+		}
+
+		@Override
+		public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
+			Capture capture = (Capture)value;
+			writer.startNode("Capture");
+			writer.addAttribute("id", String.valueOf(capture.captureId));
+			writer.addAttribute("position", capture.position);
+			writer.addAttribute("timeStamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(capture));
+			writer.addAttribute("trapId", String.valueOf(capture.captureId));
+			writer.endNode();
+		}
+
+		@Override
+		public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
+			Capture capture = new Capture();
+
+			while(reader.hasMoreChildren()){
+				reader.moveDown();
+				try{
+					capture.captureId = Integer.parseInt(reader.getAttribute("id"));
+					capture.position = reader.getAttribute("position");
+					capture.timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(reader.getAttribute("timeStamp"));
+					capture.trapDeviceId = Integer.parseInt(reader.getAttribute("trapId"));
+				}catch(ParseException ex){
+					System.out.println("Error in FileRepository: " + ex.getMessage());
+				}
+				reader.moveUp();
+			}
+			return capture;
+		}
+		
+		
+	}
+
 
 }
