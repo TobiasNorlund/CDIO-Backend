@@ -7,7 +7,7 @@
 	<Detection_InitTime>500</Detection_InitTime>
 	
 	<!-- Identification Component -->
-	<!-- ... ex hog parameters -->
+	<Identification_Classifier>/data/data/edu.wildlifesecurity.trapdevice/files/classifier1.txt</Identification_Classifier>
 	
 	<!-- Analytics Component -->
 	<!-- ... ex tracking parameters -->
