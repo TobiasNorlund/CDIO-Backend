@@ -140,7 +140,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 		File file = new File("system.log");
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		BufferedReader in = null;
-		String log="";
+		String log="\n";
 		
 		try {
 			in = new BufferedReader (new InputStreamReader (new ReverseLineInputStream(file)));
@@ -150,6 +150,10 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			while(time.compareTo(startTime)>0)
 			{
 				line = in.readLine();
+				if (line==null)
+				{
+					break;
+				}
 				time = df.parse(line.split("\t")[0]);
 				if (startTime.compareTo(time) * time.compareTo(endTime) > 0){
 					log=line + "\n" +log;
