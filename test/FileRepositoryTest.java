@@ -1,4 +1,8 @@
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +29,19 @@ public class FileRepositoryTest {
 			}
 			
 		});
-		
-		fr.info("Första loggmeddelandet!!");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date start=new Date();
+		//Date end=new Date();
+		try {
+			start=df.parse("2014-11-05 16:55:37");
+			//end=df.parse("2014-11-06 00:00:00");
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String test=fr.getLog(start);
+		System.out.println(test);
 		fr.dispose();
+
 	}
 }

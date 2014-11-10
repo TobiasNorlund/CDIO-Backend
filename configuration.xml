@@ -1,26 +1,7 @@
 <configuration>
-    
-    <!-- MediaSource Component -->
-	<MediaSource_FrameRate>1000</MediaSource_FrameRate>
-	
-	<!-- Detection Component -->
-	<Detection_InitTime>500</Detection_InitTime>
-	
-	<!-- Identification Component -->
-	<!-- ... ex hog parameters -->
-	
-	<!-- Analytics Component -->
-	<!-- ... ex tracking parameters -->
-	
-	<!-- Actuator Component -->
-	<!-- ... ex numbers to sms alarms to -->
-	
-	<!-- CommunicatorServer Component -->
-	<CommunicatorServer_Channel>edu.wildlifesecurity.backend.communicatorserver.impl.InternetChannel</CommunicatorServer_Channel>
-	<CommunicatorServer_Port>9090</CommunicatorServer_Port>
-	
-	<!-- CommunicatorClient Component -->
-	<CommunicatorClient_Channel>edu.wildlifesecurity.trapdevice.communicatorclient.impl.InternetChannel</CommunicatorClient_Channel>
-	
-
+  <Detection__InitTime>17</Detection__InitTime>
+  <CommunicatorServer__Port>9090</CommunicatorServer__Port>
+  <MediaSource__FrameRate>1000</MediaSource__FrameRate>
+  <CommunicatorServer__Channel>edu.wildlifesecurity.backend.communicatorserver.impl.InternetChannel</CommunicatorServer__Channel>
+  <CommunicatorClient__Channel>edu.wildlifesecurity.trapdevice.communicatorclient.impl.InternetChannel</CommunicatorClient__Channel>
 </configuration>
