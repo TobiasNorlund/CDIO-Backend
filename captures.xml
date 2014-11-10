@@ -1,0 +1,20 @@
+<linked-list>
+  <Capture>
+    <captureId>2</captureId>
+    <timeStamp>2014-11-06 16:16:08.89 UTC</timeStamp>
+    <trapDeviceId>2</trapDeviceId>
+    <position>Hemma</position>
+  </Capture>
+  <Capture>
+    <captureId>2</captureId>
+    <timeStamp>2014-11-06 16:16:19.693 UTC</timeStamp>
+    <trapDeviceId>2</trapDeviceId>
+    <position>Hemma</position>
+  </Capture>
+  <Capture>
+    <captureId>2</captureId>
+    <timeStamp>2014-11-08 13:50:01.961 UTC</timeStamp>
+    <trapDeviceId>2</trapDeviceId>
+    <position>Hemma</position>
+  </Capture>
+</linked-list>
