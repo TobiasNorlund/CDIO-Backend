@@ -2,7 +2,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+
 import edu.wildlifesecurity.backend.repository.impl.FileRepository;
 import edu.wildlifesecurity.backend.ISystemInterface; 
 import edu.wildlifesecurity.framework.repository.IRepository;
@@ -14,6 +16,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
  
 public class MyGui extends Application implements ISystemInterface {
 	
@@ -21,6 +24,7 @@ public class MyGui extends Application implements ISystemInterface {
 	public Date endDate=new Date();
 	TextFlow textFlow=null;
 	Text log = new Text();
+	private final String pattern = "yyyy-MM-dd";
 	
 	
 	@Override
@@ -52,6 +56,33 @@ public class MyGui extends Application implements ISystemInterface {
          DatePicker endDatePicker=(DatePicker) scene.lookup("#end_date");
          
          textFlow.getChildren().addAll(log);
+         
+         
+         StringConverter converter = new StringConverter<LocalDate>() {
+             DateTimeFormatter dateFormatter = 
+                 DateTimeFormatter.ofPattern(pattern);
+             @Override
+             public String toString(LocalDate date) {
+                 if (date != null) {
+                     return dateFormatter.format(date);
+                 } else {
+                     return "";
+                 }
+             }
+             @Override
+             public LocalDate fromString(String string) {
+                 if (string != null && !string.isEmpty()) {
+                     return LocalDate.parse(string, dateFormatter);
+                 } else {
+                     return null;
+                 }
+             }
+         };             
+         startDatePicker.setConverter(converter);
+         startDatePicker.setPromptText(pattern.toLowerCase());
+         
+         endDatePicker.setConverter(converter);
+         endDatePicker.setPromptText(pattern.toLowerCase());
          stage.show();
 
          
@@ -68,6 +99,8 @@ public class MyGui extends Application implements ISystemInterface {
            log.setText(fr.getLog(startDate,endDate));
 
      	});
+         
+         
 
 
      }
