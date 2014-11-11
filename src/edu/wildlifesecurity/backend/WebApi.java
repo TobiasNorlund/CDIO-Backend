@@ -6,8 +6,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-@Path("/resource")
-public class MyResource {
+@Path("/api")
+public class WebApi {
 
     @GET @Path("/get")
     @Produces("text/plain")
