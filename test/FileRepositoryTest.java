@@ -1,4 +1,7 @@
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +26,7 @@ public class FileRepositoryTest {
 
 	public static void main(String[] args) {
 		
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		System.loadLibrary("opencv_java249_x64");
 		
 		FileRepository fr = new FileRepository();
 		fr.init();
@@ -40,8 +43,18 @@ public class FileRepositoryTest {
 			}
 			
 		});
-		
-		fr.info("Första loggmeddelandet!!");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date start=new Date();
+		//Date end=new Date();
+		try {
+			start=df.parse("2014-11-05 16:55:37");
+			//end=df.parse("2014-11-06 00:00:00");
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String test=fr.getLog(start);
+		System.out.println(test);
 
 		Capture c = new Capture();
 		c.captureId = 2;
