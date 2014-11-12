@@ -6,6 +6,7 @@ import java.util.List;
 import edu.wildlifesecurity.backend.actuator.impl.DefaultActuator;
 import edu.wildlifesecurity.backend.communicatorserver.impl.Communicator;
 import edu.wildlifesecurity.backend.repository.impl.FileRepository;
+import edu.wildlifesecurity.backend.sysinterface.WebApiInterface;
 import edu.wildlifesecurity.framework.SurveillanceServerManager;
 
 public class BackendServerApplication {
@@ -29,7 +30,7 @@ public class BackendServerApplication {
 		
 		// Create system interfaces ( read from args which to use? )
 		List<ISystemInterface> systemInterfaces = new LinkedList<ISystemInterface>();
-		//systemInterfaces.add(new TestGUI());
+		systemInterfaces.add(new WebApiInterface());
 		
 		
 		// Link System Interfaces (GUI)
