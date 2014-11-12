@@ -57,11 +57,6 @@ public class FileRepository extends AbstractComponent implements IRepository {
 	@Override
 	public void init(){
 		// Open log file
-		try {
-			logWriter = new FileWriter("system.log", true);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -81,7 +76,8 @@ public class FileRepository extends AbstractComponent implements IRepository {
 	         error("Error in FileRepository. Could not load configuration file:\n" + ioe.getMessage()); 
 	     }
 	}
-/**
+
+	/**
 	 * Stores a capture
 	 * 
 	 * @param capture
@@ -244,8 +240,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 		
 		return log;
 	}
-	
-	
+		
 	public String getLog(Date startTime){
 		//If no specified endTime we use NOW.
 		Date endTime=new Date();
@@ -257,10 +252,12 @@ public class FileRepository extends AbstractComponent implements IRepository {
 
 		
 	}
+	
 	@Override
 	public Object getConfigOption(String option){
 		return configuration.get(option);
 	}
+	
 	@Override
 	public void setConfigOption(String option, Object value){
 		configuration.put(option, value);
@@ -344,7 +341,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 		
 	}
 
-public class ReverseLineInputStream extends InputStream {
+	public class ReverseLineInputStream extends InputStream {
 
 	    RandomAccessFile in;
 

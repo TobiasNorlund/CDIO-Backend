@@ -17,4 +17,10 @@
     <trapDeviceId>2</trapDeviceId>
     <position>Hemma</position>
   </Capture>
+  <Capture>
+    <captureId>2</captureId>
+    <timeStamp>2014-11-12 12:19:06.38 UTC</timeStamp>
+    <trapDeviceId>2</trapDeviceId>
+    <position>Hemma</position>
+  </Capture>
 </linked-list>

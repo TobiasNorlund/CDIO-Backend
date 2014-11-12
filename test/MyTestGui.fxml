@@ -39,6 +39,6 @@
       </VBox>
    </left>
    <center>
-      <TextFlow fx:id="log" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <TextFlow id="log" fx:id="log" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
