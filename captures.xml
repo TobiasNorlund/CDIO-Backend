@@ -1,9 +1,9 @@
 <linked-list>
   <Capture>
-    <captureId>2</captureId>
+    <captureId>1</captureId>
     <timeStamp>2014-11-06 16:16:08.89 UTC</timeStamp>
-    <trapDeviceId>2</trapDeviceId>
-    <position>Hemma</position>
+    <trapDeviceId>1</trapDeviceId>
+    <position>ISYtan</position>
   </Capture>
   <Capture>
     <captureId>2</captureId>
@@ -12,15 +12,21 @@
     <position>Hemma</position>
   </Capture>
   <Capture>
-    <captureId>2</captureId>
+    <captureId>3</captureId>
     <timeStamp>2014-11-08 13:50:01.961 UTC</timeStamp>
     <trapDeviceId>2</trapDeviceId>
     <position>Hemma</position>
   </Capture>
   <Capture>
-    <captureId>2</captureId>
+    <captureId>4</captureId>
     <timeStamp>2014-11-12 12:19:06.38 UTC</timeStamp>
     <trapDeviceId>2</trapDeviceId>
     <position>Hemma</position>
+  </Capture>
+  <Capture>
+    <captureId>5</captureId>
+    <timeStamp>2014-11-12 13:12:16.374 UTC</timeStamp>
+    <trapDeviceId>3</trapDeviceId>
+    <position>Java</position>
   </Capture>
 </linked-list>
