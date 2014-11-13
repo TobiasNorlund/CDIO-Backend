@@ -1,7 +1,5 @@
 package edu.wildlifesecurity.backend.sysinterface.gui.view;
 
-import java.io.File;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -84,12 +82,9 @@ public class CaptureViewController {
         	positionLabel.setText(capture.getPosition());
         	captureImage.setImage(new Image("file:captureImages/ogre52.png"));
         	
-        	//captureImage.setImage(placeholder);
 
-            // TODO: We need a way to convert the birthday into a String! 
-            // birthdayLabel.setText(...);
         } else {
-            // Person is null, remove all the text.
+
         	captureIdLabel.setText("");
             timeStampLabel.setText("");
         	trapDeviceIdLabel.setText("");
