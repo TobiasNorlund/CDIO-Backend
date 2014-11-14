@@ -2,7 +2,6 @@ package edu.wildlifesecurity.backend.repository.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -99,9 +98,8 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			fw.write(magicApi.toXML(captures));
 			fw.close();
 
-			if (capture.image != null) {
-				Highgui.imwrite("Captures/" + capture.captureId + ".png",
-						capture.image);
+			if (capture.getImage() != null) {
+				Highgui.imwrite(capture.getImagePath(),	capture.getImage());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -139,7 +137,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 
 	@Override
 	public Mat getCaptureImage(Capture capture) {
-		return Highgui.imread("Captures/" + capture.captureId);
+		return Highgui.imread(capture.getImagePath()); //<- Does this really work, missing 
 	}
 
 	public void saveConfiguration() {

@@ -1,7 +1,10 @@
 package edu.wildlifesecurity.backend.sysinterface.gui;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+
+import org.opencv.core.Mat;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -39,6 +42,8 @@ public class MainApp extends Application {
         {
         	captureData.add(new ViewableCapture(c));
         }
+        Capture myCapture=new Capture(3,new Date(), 10, "home");
+        System.out.println(myCapture.getImagePath());
 
     }
 

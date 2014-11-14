@@ -4,29 +4,34 @@
     <timeStamp>2014-11-06 16:16:08.89 UTC</timeStamp>
     <trapDeviceId>1</trapDeviceId>
     <position>ISYtan</position>
+    <imagePath>Captures/2014-11-06/1.png</imagePath>
   </Capture>
   <Capture>
     <captureId>2</captureId>
     <timeStamp>2014-11-06 16:16:19.693 UTC</timeStamp>
     <trapDeviceId>2</trapDeviceId>
     <position>Hemma</position>
+    <imagePath>Captures/2014-11-06/2.png</imagePath>
   </Capture>
   <Capture>
     <captureId>3</captureId>
     <timeStamp>2014-11-08 13:50:01.961 UTC</timeStamp>
     <trapDeviceId>2</trapDeviceId>
     <position>Hemma</position>
+    <imagePath>Captures/2014-11-08/3.png</imagePath>
   </Capture>
   <Capture>
     <captureId>4</captureId>
     <timeStamp>2014-11-12 12:19:06.38 UTC</timeStamp>
     <trapDeviceId>2</trapDeviceId>
     <position>Hemma</position>
+    <imagePath>Captures/2014-11-12/4.png</imagePath>
   </Capture>
   <Capture>
     <captureId>5</captureId>
     <timeStamp>2014-11-12 13:12:16.374 UTC</timeStamp>
     <trapDeviceId>3</trapDeviceId>
     <position>Java</position>
+    <imagePath>Captures/2014-11-12/5.png</imagePath>
   </Capture>
 </linked-list>

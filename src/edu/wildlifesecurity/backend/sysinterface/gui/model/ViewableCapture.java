@@ -1,5 +1,7 @@
 package edu.wildlifesecurity.backend.sysinterface.gui.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
@@ -15,9 +17,6 @@ import javafx.beans.property.StringProperty;
 
 
 public class ViewableCapture {
-
-	
-	
 	
 	private IntegerProperty captureId;
 	
@@ -32,13 +31,17 @@ public class ViewableCapture {
 	private StringProperty position;
 	
 	private ObjectProperty<Mat> image;
+	
+	private StringProperty imagePath;
+	
+	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 
     /**
      * Default constructor.
      */
     public ViewableCapture() {
-        this(null, null,null, null, null);
+        this(null, null,null, null, null, null);
     }
 
     /**
@@ -47,14 +50,15 @@ public class ViewableCapture {
      * @param firstName
      * @param lastName
      */
-    public ViewableCapture(Integer id, LocalDate time, Integer trapId, String position, Mat img) {
+    public ViewableCapture(Integer id, LocalDate time, Integer trapId, String position, Mat img, String path) {
     	this.captureId= new SimpleIntegerProperty(id);
     	this.timeStamp= new SimpleObjectProperty<LocalDate>(time);
     	this.trapDeviceId = new SimpleIntegerProperty(trapId);
     	this.position= new SimpleStringProperty(position);
     	this.image = new SimpleObjectProperty<Mat>(img);
-    	this.timeStampString = new SimpleStringProperty(time.toString());
+    	this.timeStampString = new SimpleStringProperty(df.format(time));
     	this.captureIdString = new SimpleStringProperty(Integer.toString(id));
+    	this.imagePath=new SimpleStringProperty(path);
     }
     
     public ViewableCapture(Capture cap) {
@@ -63,8 +67,9 @@ public class ViewableCapture {
     	this.trapDeviceId = new SimpleIntegerProperty(cap.getTrapDeviceId());
     	this.position= new SimpleStringProperty(cap.getPosition());
     	this.image = new SimpleObjectProperty<Mat>(cap.getImage());
-    	this.timeStampString = new SimpleStringProperty(cap.getTimeStamp().toString());
+    	this.timeStampString = new SimpleStringProperty(df.format(cap.getTimeStamp()));
     	this.captureIdString = new SimpleStringProperty(Integer.toString(cap.getCaptureId()));
+    	this.imagePath=new SimpleStringProperty(cap.getImagePath());
 
     }
     
@@ -157,6 +162,19 @@ public class ViewableCapture {
 
     public ObjectProperty<Mat> imageProperty() {
         return image;
+    }
+    
+    //ImagePath
+    public String getImagePath() {
+        return imagePath.get();
+    }
+
+    public void setImagePath(String path) {
+        this.imagePath.set(path);
+    }
+
+    public StringProperty imagePathProperty() {
+        return imagePath;
     }
     
     }

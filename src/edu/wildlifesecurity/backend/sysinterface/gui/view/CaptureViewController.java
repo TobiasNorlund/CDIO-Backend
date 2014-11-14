@@ -27,7 +27,10 @@ public class CaptureViewController {
 	@FXML
 	private Label positionLabel;
 	@FXML
+	private Label imagePath;
+	@FXML
 	private ImageView captureImage;
+
 	
        // Reference to the main application.
     private MainApp mainApp;
@@ -80,7 +83,8 @@ public class CaptureViewController {
             timeStampLabel.setText(capture.getTimeStampString());
         	trapDeviceIdLabel.setText(Integer.toString(capture.getTrapDeviceId()));
         	positionLabel.setText(capture.getPosition());
-        	captureImage.setImage(new Image("file:captureImages/ogre52.png"));
+        	imagePath.setText(capture.getImagePath());
+        	captureImage.setImage(new Image("file:"+capture.getImagePath()));
         	
 
         } else {
@@ -89,6 +93,7 @@ public class CaptureViewController {
             timeStampLabel.setText("");
         	trapDeviceIdLabel.setText("");
         	positionLabel.setText("");
+        	imagePath.setText("");
 
         }
     }
