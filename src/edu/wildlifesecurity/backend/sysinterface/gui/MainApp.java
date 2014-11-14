@@ -42,9 +42,6 @@ public class MainApp extends Application {
         {
         	captureData.add(new ViewableCapture(c));
         }
-        Capture myCapture=new Capture(3,new Date(), 10, "home");
-        System.out.println(myCapture.getImagePath());
-
     }
 
     /**
