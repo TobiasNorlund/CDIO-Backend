@@ -13,7 +13,11 @@
 	<!-- ... ex tracking parameters -->
 	
 	<!-- Actuator Component -->
-	<!-- ... ex numbers to sms alarms to -->
+	<Actuator_IP></Actuator_IP>
+	<Actuator_Port>1234</Actuator_Port>
+	<Actuator_Message></Actuator_Message>
+	<Actuator_GuardNumber></Actuator_GuardNumber>
+	<Actuator_Password></Actuator_Password>
 	
 	<!-- CommunicatorServer Component -->
 	<CommunicatorServer_Channel>edu.wildlifesecurity.backend.communicatorserver.impl.InternetChannel</CommunicatorServer_Channel>
