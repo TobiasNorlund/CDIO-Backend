@@ -6,6 +6,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 
 import edu.wildlifesecurity.framework.AbstractComponent;
@@ -16,6 +17,7 @@ import edu.wildlifesecurity.framework.ISubscription;
 import edu.wildlifesecurity.framework.Message;
 import edu.wildlifesecurity.framework.MessageEvent;
 import edu.wildlifesecurity.framework.communicatorserver.ICommunicatorServer;
+import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
 
 public class Communicator extends AbstractComponent implements ICommunicatorServer {
 	
@@ -69,8 +71,12 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 
 	@Override
 	public void sendMessage(Message msg) {
-		// TODO Auto-generated method stub
-		
+		channel.sendMessage(msg);
+	}
+
+	@Override
+	public List<TrapDevice> getConnectedTrapDevices() {
+		return channel.getConnectedTrapDevices();
 	}
 	
 }

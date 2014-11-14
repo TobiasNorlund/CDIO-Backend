@@ -1,6 +1,7 @@
 package edu.wildlifesecurity.backend.sysinterface;
 
 
+import java.io.ByteArrayInputStream;
 import java.util.Date;
 
 import javax.ws.rs.GET;
@@ -11,6 +12,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.opencv.core.MatOfByte;
+import org.opencv.highgui.Highgui;
 
 @Path("/api")
 public class WebApiHandler {
@@ -27,10 +31,30 @@ public class WebApiHandler {
         return Response.status(Status.ACCEPTED).build();
     }
     
-    /*@GET @Path("log")
+    @GET @Path("log")
     @Produces("text/plain")
     public String getConfigOption(@QueryParam("t_start") Date startTime) {
-        //return WebApiInterface.getInstance().getRepository().
-    }*/
+        return WebApiInterface.getInstance().getRepository().getLog(startTime);
+    }
 
+    @GET @Path("trap-devices")
+    @Produces("text/plain")
+    public String getTrapDevices() {
+        return WebApiInterface.getInstance().getCommunicator().getConnectedTrapDevices().toString();
+    }
+    
+    @GET @Path("captures")
+    @Produces("text/plain")
+    public String getCaptures() {
+        return WebApiInterface.getInstance().getRepository().getCaptureDefinitions().toString();
+    }
+    
+    @GET @Path("capture-image")
+    @Produces("image/jpeg")
+    public Response getCaptureImage(@QueryParam("id") int id) {
+    	MatOfByte mob = new MatOfByte();
+    	Highgui.imencode("jpg", WebApiInterface.getInstance().getRepository().getCaptureImage(id), mob);
+    	
+    	return Response.ok(new ByteArrayInputStream(mob.toArray())).build();
+    }
 }

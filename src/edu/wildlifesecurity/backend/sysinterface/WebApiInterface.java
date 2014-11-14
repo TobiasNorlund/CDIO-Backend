@@ -10,6 +10,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import com.sun.net.httpserver.HttpServer;
 
 import edu.wildlifesecurity.backend.ISystemInterface;
+import edu.wildlifesecurity.framework.communicatorserver.ICommunicatorServer;
 import edu.wildlifesecurity.framework.repository.IRepository;
 
 public class WebApiInterface implements ISystemInterface {
@@ -20,12 +21,14 @@ public class WebApiInterface implements ISystemInterface {
 	}
 	
 	private IRepository repository;
+	private ICommunicatorServer communicator;
 
 	@Override
-	public void link(IRepository repository) {
+	public void link(IRepository repository, ICommunicatorServer communicator) {
 		instance = this;
 		
 		this.repository = repository;
+		this.communicator = communicator;
 		
 		// Start web service
 		URI baseUri = UriBuilder.fromUri("http://localhost/").port(9998).build();
@@ -36,5 +39,9 @@ public class WebApiInterface implements ISystemInterface {
 
 	public IRepository getRepository(){
 		return repository;
+	}
+	
+	public ICommunicatorServer getCommunicator(){
+		return communicator;
 	}
 }

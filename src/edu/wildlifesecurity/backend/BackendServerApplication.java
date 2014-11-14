@@ -3,11 +3,11 @@ package edu.wildlifesecurity.backend;
 import java.util.LinkedList;
 import java.util.List;
 
-import edu.wildlifesecurity.backend.actuator.impl.DefaultActuator;
 import edu.wildlifesecurity.backend.communicatorserver.impl.Communicator;
 import edu.wildlifesecurity.backend.repository.impl.FileRepository;
 import edu.wildlifesecurity.backend.sysinterface.WebApiInterface;
 import edu.wildlifesecurity.framework.SurveillanceServerManager;
+import edu.wildlifesecurity.framework.actuator.impl.DefaultActuator;
 
 public class BackendServerApplication {
 
@@ -35,7 +35,7 @@ public class BackendServerApplication {
 		
 		// Link System Interfaces (GUI)
 		for(ISystemInterface sysInt : systemInterfaces)
-			sysInt.link(repository);
+			sysInt.link(repository, communicator);
 		
 		System.out.println("Server is running...");
 	}

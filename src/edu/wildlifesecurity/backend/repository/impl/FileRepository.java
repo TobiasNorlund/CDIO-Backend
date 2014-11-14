@@ -136,8 +136,8 @@ public class FileRepository extends AbstractComponent implements IRepository {
 	}
 
 	@Override
-	public Mat getCaptureImage(Capture capture) {
-		return Highgui.imread(capture.getImagePath()); //<- Does this really work, missing 
+	public Mat getCaptureImage(int captureId) {
+		return Highgui.imread("Captures/" + captureId + ".png"); //<- Does this really work, missing 
 	}
 
 	public void saveConfiguration() {

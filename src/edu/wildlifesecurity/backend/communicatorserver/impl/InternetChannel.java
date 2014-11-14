@@ -19,6 +19,7 @@ import edu.wildlifesecurity.framework.ILogger;
 import edu.wildlifesecurity.framework.ISubscription;
 import edu.wildlifesecurity.framework.Message;
 import edu.wildlifesecurity.framework.MessageEvent;
+import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
 
 /**
  * Connects multiple trapdevices using the internet to exchange messages
@@ -94,15 +95,25 @@ public class InternetChannel extends AbstractChannel {
 		
 	}
 	
+	@Override
+	List<TrapDevice> getConnectedTrapDevices() {
+		List<TrapDevice> list = new LinkedList<TrapDevice>();
+		for(TrapDeviceConnection tdc : trapDeviceConnections)
+			list.add(tdc.getTrapDevice());
+		
+		return list;
+	}
+	
 	private class TrapDeviceConnection implements CompletionHandler<Integer, ByteBuffer> {
 		
-		private int id;
+		private TrapDevice trapDevice;
 		private EventDispatcher<MessageEvent> eventDispatcher;
 		private AsynchronousSocketChannel connection;
 		private ByteBuffer incomingBuffer = ByteBuffer.allocateDirect(2048);
 		
 		private TrapDeviceConnection(int id, AsynchronousSocketChannel conn, EventDispatcher<MessageEvent> eventDispatcher) throws IOException{
-			this.id = id;
+			this.trapDevice = new TrapDevice();
+			this.trapDevice.id = id;
 			this.connection = conn;
 			this.eventDispatcher = eventDispatcher;
 
@@ -113,10 +124,10 @@ public class InternetChannel extends AbstractChannel {
         {
             buffer.flip();
             String msgReceived = Charset.defaultCharset().decode(buffer).toString().replaceAll("\\n", "");
-            log.info("TrapDevice " + id + ": " + msgReceived);
+            log.info("TrapDevice " + trapDevice.id + ": " + msgReceived);
             eventDispatcher.dispatch(
             		new MessageEvent(MessageEvent.getEventType(msgReceived.split(",")[0]), 
-            				new Message(msgReceived, id)));
+            				new Message(msgReceived, trapDevice.id)));
             buffer.clear();
             
             connection.read(incomingBuffer, incomingBuffer, this);
@@ -134,7 +145,12 @@ public class InternetChannel extends AbstractChannel {
 				log.error("Error in InternetChannel. Could not send data to client: " + e.getMessage());
 			}
         }
+        
+        public TrapDevice getTrapDevice(){
+        	return trapDevice;
+        }
 
 	}
+
 
 }
