@@ -50,7 +50,6 @@ import edu.wildlifesecurity.framework.tracking.Capture;
 public class FileRepository extends AbstractComponent implements IRepository {
 
 	private Map<String, Object> configuration;
-	private FileWriter logWriter;
 	private EventDispatcher<LogEvent> logEventDispatcher = new EventDispatcher<LogEvent>();
 
 	@Override
