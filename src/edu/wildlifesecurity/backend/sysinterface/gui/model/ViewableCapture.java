@@ -33,8 +33,8 @@ public class ViewableCapture {
 	private ObjectProperty<Mat> image;
 	
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-
+	
+	private Capture rawCapture;
     /**
      * Default constructor.
      */
@@ -66,6 +66,7 @@ public class ViewableCapture {
     	this.image = new SimpleObjectProperty<Mat>(cap.image);
     	this.timeStampString = new SimpleStringProperty(df.format(cap.timeStamp));
     	this.captureIdString = new SimpleStringProperty(Integer.toString(cap.captureId));
+    	this.rawCapture=cap;
 
     }
     
@@ -159,5 +160,11 @@ public class ViewableCapture {
     public ObjectProperty<Mat> imageProperty() {
         return image;
     }
+    
+    //Image
+    public Capture getRawCapture() {
+        return this.rawCapture;
+    }
+
     
     }

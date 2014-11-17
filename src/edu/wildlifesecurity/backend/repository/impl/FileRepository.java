@@ -51,7 +51,18 @@ public class FileRepository extends AbstractComponent implements IRepository {
 
 	private Map<String, Object> configuration;
 	private EventDispatcher<LogEvent> logEventDispatcher = new EventDispatcher<LogEvent>();
+	private String imagePathFormat="Captures/%d.png";
+	
+	//for more advanced formatting
+	private DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+	private DateFormat time = new SimpleDateFormat("HH:mm:ss");
 
+
+	private String getPath(int id){
+		return String.format(imagePathFormat, id);
+	}
+	
+	
 	@Override
 	public void init() {
 
@@ -98,7 +109,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			fw.close();
 
 			if (capture.image != null) {
-				Highgui.imwrite("Captures/" + capture.captureId + ".png",	capture.image); // this is wrong now
+				Highgui.imwrite(getPath(capture.captureId),	capture.image); // this is wrong now
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -136,7 +147,12 @@ public class FileRepository extends AbstractComponent implements IRepository {
 
 	@Override
 	public Mat getCaptureImage(int captureId) {
-		return Highgui.imread("Captures/" + captureId + ".png"); //<- Does this really work, missing 
+		return Highgui.imread(getPath(captureId));
+	}
+	
+	@Override
+	public Mat getCaptureImage(Capture cap) {
+		return Highgui.imread(getPath(cap.captureId)); 
 	}
 
 	public void saveConfiguration() {
