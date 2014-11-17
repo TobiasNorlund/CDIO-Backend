@@ -22,7 +22,7 @@ import edu.wildlifesecurity.framework.tracking.Capture;
 
 public class MainApp extends Application {
 
-	private IRepository repository = new FileRepository();
+	public IRepository repository = new FileRepository();
     private Stage primaryStage;
     private BorderPane rootLayout;
     
@@ -36,7 +36,7 @@ public class MainApp extends Application {
      */
     public MainApp() {
         // Add some sample data
-
+    	System.loadLibrary("opencv_java249_x64");
     	List<Capture> captures=this.repository.getCaptureDefinitions();
         for (Capture c: captures)
         {

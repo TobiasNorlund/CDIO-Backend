@@ -32,8 +32,6 @@ public class ViewableCapture {
 	
 	private ObjectProperty<Mat> image;
 	
-	private StringProperty imagePath;
-	
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 
@@ -58,18 +56,16 @@ public class ViewableCapture {
     	this.image = new SimpleObjectProperty<Mat>(img);
     	this.timeStampString = new SimpleStringProperty(df.format(time));
     	this.captureIdString = new SimpleStringProperty(Integer.toString(id));
-    	this.imagePath=new SimpleStringProperty(path);
     }
     
     public ViewableCapture(Capture cap) {
-    	this.captureId= new SimpleIntegerProperty(cap.getCaptureId());
-    	this.timeStamp= new SimpleObjectProperty<LocalDate>(cap.getTimeStamp().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-    	this.trapDeviceId = new SimpleIntegerProperty(cap.getTrapDeviceId());
-    	this.position= new SimpleStringProperty(cap.getPosition());
-    	this.image = new SimpleObjectProperty<Mat>(cap.getImage());
-    	this.timeStampString = new SimpleStringProperty(df.format(cap.getTimeStamp()));
-    	this.captureIdString = new SimpleStringProperty(Integer.toString(cap.getCaptureId()));
-    	this.imagePath=new SimpleStringProperty(cap.getImagePath());
+    	this.captureId= new SimpleIntegerProperty(cap.captureId);
+    	this.timeStamp= new SimpleObjectProperty<LocalDate>(cap.timeStamp.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+    	this.trapDeviceId = new SimpleIntegerProperty(cap.trapDeviceId);
+    	this.position= new SimpleStringProperty(cap.position);
+    	this.image = new SimpleObjectProperty<Mat>(cap.image);
+    	this.timeStampString = new SimpleStringProperty(df.format(cap.timeStamp));
+    	this.captureIdString = new SimpleStringProperty(Integer.toString(cap.captureId));
 
     }
     
@@ -162,19 +158,6 @@ public class ViewableCapture {
 
     public ObjectProperty<Mat> imageProperty() {
         return image;
-    }
-    
-    //ImagePath
-    public String getImagePath() {
-        return imagePath.get();
-    }
-
-    public void setImagePath(String path) {
-        this.imagePath.set(path);
-    }
-
-    public StringProperty imagePathProperty() {
-        return imagePath;
     }
     
     }

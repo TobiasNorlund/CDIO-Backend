@@ -1,5 +1,11 @@
 package edu.wildlifesecurity.backend.sysinterface.gui.view;
 
+import java.io.ByteArrayInputStream;
+
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.highgui.Highgui;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -76,6 +82,12 @@ public class CaptureViewController {
         captureTable.setItems(mainApp.getCaptureData());
     }
     
+    public Image matToImage(Mat input) {
+    	MatOfByte buf = new MatOfByte();    
+    	Highgui.imencode(".png", input, buf);
+    	return new Image(new ByteArrayInputStream(buf.toArray()));
+    	}
+    
     private void showCaptureDetails(ViewableCapture capture) {
         if (capture != null) {
         	
@@ -83,8 +95,7 @@ public class CaptureViewController {
             timeStampLabel.setText(capture.getTimeStampString());
         	trapDeviceIdLabel.setText(Integer.toString(capture.getTrapDeviceId()));
         	positionLabel.setText(capture.getPosition());
-        	imagePath.setText(capture.getImagePath());
-        	captureImage.setImage(new Image("file:"+capture.getImagePath()));
+        	captureImage.setImage(matToImage(mainApp.repository.getCaptureImage(capture.getCaptureId())));
         	
 
         } else {

@@ -8,6 +8,7 @@ import java.util.Date;
 
 import edu.wildlifesecurity.backend.repository.impl.FileRepository;
 import edu.wildlifesecurity.backend.ISystemInterface;
+import edu.wildlifesecurity.framework.communicatorserver.ICommunicatorServer;
 import edu.wildlifesecurity.framework.repository.IRepository;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,11 +28,6 @@ public class LogView extends Application implements ISystemInterface {
 	Text log = new Text();
 	private final String pattern = "yyyy-MM-dd";
 
-	@Override
-	public void link(IRepository repository) {
-		// TODO Auto-generated method stub
-
-	}
 
 	public static void main(String[] args) {
 		launch(args);
@@ -102,6 +98,12 @@ public class LogView extends Application implements ISystemInterface {
 
 		});
 
+	}
+
+	@Override
+	public void link(IRepository repository, ICommunicatorServer communicator) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

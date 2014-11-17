@@ -55,7 +55,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 
 	@Override
 	public void init() {
-		// Open log file
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -98,8 +98,8 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			fw.write(magicApi.toXML(captures));
 			fw.close();
 
-			if (capture.getImage() != null) {
-				Highgui.imwrite(capture.getImagePath(),	capture.getImage());
+			if (capture.image != null) {
+				Highgui.imwrite("Captures/" + capture.captureId + ".png",	capture.image); // this is wrong now
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -178,7 +178,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 		log("WARNING", msg);
 	}
 
-	private void log(String prio, String msg) {
+	public void log(String prio, String msg) {
 		// Use log writer to store the log message
 		try {
 			String logEntry = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
