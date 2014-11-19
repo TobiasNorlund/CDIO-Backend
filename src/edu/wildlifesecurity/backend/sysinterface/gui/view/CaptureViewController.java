@@ -75,7 +75,7 @@ public class CaptureViewController {
      * 
      * @param mainApp
      */
-    @FXML
+    
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
 

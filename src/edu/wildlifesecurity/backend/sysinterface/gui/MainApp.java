@@ -1,47 +1,44 @@
 package edu.wildlifesecurity.backend.sysinterface.gui;
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-
-import org.opencv.core.Mat;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import edu.wildlifesecurity.backend.repository.impl.FileRepository;
+import edu.wildlifesecurity.backend.ISystemInterface;
 import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableCapture;
-import edu.wildlifesecurity.backend.sysinterface.gui.view.CaptureViewController;
+import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableTrapDevice;
+import edu.wildlifesecurity.backend.sysinterface.gui.view.TabController;
+import edu.wildlifesecurity.framework.communicatorserver.ICommunicatorServer;
+import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
 import edu.wildlifesecurity.framework.repository.IRepository;
 import edu.wildlifesecurity.framework.tracking.Capture;
 
-public class MainApp extends Application {
+public class MainApp extends Application implements ISystemInterface {
 
-	public IRepository repository = new FileRepository();
+	static public IRepository repository;
+	static public ICommunicatorServer communicator;
     private Stage primaryStage;
-    private BorderPane rootLayout;
+    public BorderPane rootLayout;
+    private Thread guiThread;
     
     /**
      * The data as an observable list of Persons.
      */
     private ObservableList<ViewableCapture> captureData = FXCollections.observableArrayList();
+    private ObservableList<ViewableTrapDevice> trapDeviceData = FXCollections.observableArrayList();
 
     /**
      * Constructor
      */
     public MainApp() {
         // Add some sample data
-    	System.loadLibrary("opencv_java249_x64");
-    	List<Capture> captures=this.repository.getCaptureDefinitions();
-        for (Capture c: captures)
-        {
-        	captureData.add(new ViewableCapture(c));
-        }
 
     }
 
@@ -53,15 +50,54 @@ public class MainApp extends Application {
     public ObservableList<ViewableCapture> getCaptureData() {
         return captureData;
     }
+    
+    public ObservableList<ViewableTrapDevice> getTrapDeviceData() {
+        return trapDeviceData;
+    }
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Capture View");
-
+        
         initRootLayout();
+        showTabView();
+        List<Capture> captures=new ArrayList<Capture>();
+        try{
+        	captures=MainApp.repository.getCaptureDefinitions();
+        }catch(Exception e){
+        	
+        }
+        for (Capture c: captures)
+        {
+        	captureData.add(new ViewableCapture(c));
+        }
 
-        showCaptureView();
+
+       List<TrapDevice> trapDevices=new ArrayList<TrapDevice>(); 
+       try{
+    	   trapDevices=MainApp.communicator.getConnectedTrapDevices();
+       }catch(Exception e){
+       	
+       }
+       //for debug only!!!
+       trapDevices.add(new TrapDevice(1,"hemma"));
+       trapDevices.add(new TrapDevice(2,"ISYtan"));
+       trapDevices.add(new TrapDevice(3,"Kenya"));
+       trapDevices.add(new TrapDevice(4,"B-huset"));
+       trapDevices.add(new TrapDevice(5,"hemma"));
+       trapDevices.add(new TrapDevice(6,"ISYtan"));
+       trapDevices.add(new TrapDevice(7,"Irrblåsset"));
+       trapDevices.add(new TrapDevice(8,"Java"));
+       // end debug
+        for (TrapDevice t:trapDevices)
+        {
+        	trapDeviceData.add(new ViewableTrapDevice(t));
+        }
+
+        
+        
+
     }
     
     /**
@@ -83,21 +119,18 @@ public class MainApp extends Application {
         }
     }
 
-    /**
-     * Shows the person overview inside the root layout.
-     */
-    public void showCaptureView() {
+   
+    
+    public void showTabView() {
         try {
-            // Load person overview.
+            
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/CaptureView.fxml"));
-            AnchorPane personOverview = (AnchorPane) loader.load();
+            loader.setLocation(MainApp.class.getResource("view/Tabbed.fxml"));
+            TabPane logOverview = (TabPane) loader.load();
             
-            // Set person overview into the center of root layout.
-            rootLayout.setCenter(personOverview);
+            rootLayout.setCenter(logOverview);
             
-            // Give the controller access to the main app.
-            CaptureViewController controller = loader.getController();
+            TabController controller = loader.getController();
             controller.setMainApp(this);
             
         } catch (IOException e) {
@@ -116,4 +149,30 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+	@Override
+	public void link(IRepository repository, ICommunicatorServer communicator) {
+		// TODO Auto-generated method stub
+
+		MainApp.repository=repository;
+		MainApp.communicator=communicator;
+
+		guiThread = new Thread(new Runnable(){
+
+				
+
+				@Override
+				public void run() {
+					launch(MainApp.class);
+					
+				}
+			
+		});
+		
+		guiThread.start();
+        
+        
+
+        
+	}
 }
