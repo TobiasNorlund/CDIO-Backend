@@ -59,13 +59,13 @@ public class ViewableCapture {
     }
     
     public ViewableCapture(Capture cap) {
-    	this.captureId= new SimpleIntegerProperty(cap.captureId);
+    	this.captureId= new SimpleIntegerProperty(cap.id);
     	this.timeStamp= new SimpleObjectProperty<LocalDate>(cap.timeStamp.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
     	this.trapDeviceId = new SimpleIntegerProperty(cap.trapDeviceId);
-    	this.position= new SimpleStringProperty(cap.position);
-    	this.image = new SimpleObjectProperty<Mat>(cap.image);
+    	this.position= new SimpleStringProperty(cap.GPSPos);
+    	this.image = new SimpleObjectProperty<Mat>(cap.regionImage);
     	this.timeStampString = new SimpleStringProperty(df.format(cap.timeStamp));
-    	this.captureIdString = new SimpleStringProperty(Integer.toString(cap.captureId));
+    	this.captureIdString = new SimpleStringProperty(Integer.toString(cap.id));
     	this.rawCapture=cap;
 
     }

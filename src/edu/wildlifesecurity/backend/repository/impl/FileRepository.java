@@ -108,8 +108,8 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			fw.write(magicApi.toXML(captures));
 			fw.close();
 
-			if (capture.image != null) {
-				Highgui.imwrite(getPath(capture.captureId),	capture.image); // this is wrong now
+			if (capture.regionImage != null) {
+				Highgui.imwrite(getPath(capture.id), capture.regionImage); // this is wrong now
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -152,7 +152,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 	
 	@Override
 	public Mat getCaptureImage(Capture cap) {
-		return Highgui.imread(getPath(cap.captureId)); 
+		return Highgui.imread(getPath(cap.id)); 
 	}
 
 	public void saveConfiguration() {
@@ -333,11 +333,11 @@ public class FileRepository extends AbstractComponent implements IRepository {
 				MarshallingContext context) {
 			Capture capture = (Capture) value;
 			writer.startNode("Capture");
-			writer.addAttribute("id", String.valueOf(capture.captureId));
-			writer.addAttribute("position", capture.position);
+			writer.addAttribute("id", String.valueOf(capture.id));
+			writer.addAttribute("position", capture.GPSPos);
 			writer.addAttribute("timeStamp", new SimpleDateFormat(
 					"yyyy-MM-dd HH:mm:ss").format(capture));
-			writer.addAttribute("trapId", String.valueOf(capture.captureId));
+			writer.addAttribute("trapId", String.valueOf(capture.id));
 			writer.endNode();
 		}
 
@@ -349,9 +349,9 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			while (reader.hasMoreChildren()) {
 				reader.moveDown();
 				try {
-					capture.captureId = Integer.parseInt(reader
+					capture.id = Integer.parseInt(reader
 							.getAttribute("id"));
-					capture.position = reader.getAttribute("position");
+					capture.GPSPos = reader.getAttribute("position");
 					capture.timeStamp = new SimpleDateFormat(
 							"yyyy-MM-dd HH:mm:ss").parse(reader
 							.getAttribute("timeStamp"));

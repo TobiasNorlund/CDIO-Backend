@@ -55,11 +55,11 @@ public class FileRepositoryTest {
 		System.out.println(test);
 
 		Capture c = new Capture();
-		c.captureId = 2;
+		c.id = 2;
 		c.trapDeviceId = 2;
-		c.position = "Hemma";
+		c.GPSPos = "Hemma";
 		c.timeStamp = new Date();
-		c.image = new Mat(1, 2, 3);
+		c.regionImage = new Mat(1, 2, 3);
 
 		fr.storeCapture(c);
 
