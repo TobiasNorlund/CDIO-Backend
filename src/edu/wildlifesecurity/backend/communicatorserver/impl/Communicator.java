@@ -16,6 +16,7 @@ import edu.wildlifesecurity.framework.ILogger;
 import edu.wildlifesecurity.framework.ISubscription;
 import edu.wildlifesecurity.framework.Message;
 import edu.wildlifesecurity.framework.MessageEvent;
+import edu.wildlifesecurity.framework.communicatorserver.ConnectEvent;
 import edu.wildlifesecurity.framework.communicatorserver.ICommunicatorServer;
 import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
 
@@ -65,7 +66,7 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 	}
 
 	@Override
-	public ISubscription addEventHandler(EventType type, IEventHandler<MessageEvent> handler) {
+	public ISubscription addMessageEventHandler(EventType type, IEventHandler<MessageEvent> handler) {
 		return channel.addEventHandler(type, handler);
 	}
 
@@ -77,6 +78,14 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 	@Override
 	public List<TrapDevice> getConnectedTrapDevices() {
 		return channel.getConnectedTrapDevices();
+	}
+
+
+	@Override
+	public ISubscription addConnectEventHandler(EventType type,
+			IEventHandler<ConnectEvent> handler) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

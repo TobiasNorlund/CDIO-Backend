@@ -80,16 +80,6 @@ public class MainApp extends Application implements ISystemInterface {
        }catch(Exception e){
        	
        }
-       //for debug only!!!
-       trapDevices.add(new TrapDevice(1,"hemma"));
-       trapDevices.add(new TrapDevice(2,"ISYtan"));
-       trapDevices.add(new TrapDevice(3,"Kenya"));
-       trapDevices.add(new TrapDevice(4,"B-huset"));
-       trapDevices.add(new TrapDevice(5,"hemma"));
-       trapDevices.add(new TrapDevice(6,"ISYtan"));
-       trapDevices.add(new TrapDevice(7,"Irrblåsset"));
-       trapDevices.add(new TrapDevice(8,"Java"));
-       // end debug
         for (TrapDevice t:trapDevices)
         {
         	trapDeviceData.add(new ViewableTrapDevice(t));
