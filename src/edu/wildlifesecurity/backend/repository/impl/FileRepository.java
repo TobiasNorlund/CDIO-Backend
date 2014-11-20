@@ -109,7 +109,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			fw.close();
 
 			if (capture.regionImage != null) {
-				Highgui.imwrite(getPath(capture.id), capture.regionImage); // this is wrong now
+				Highgui.imwrite(getPath(capture.id),	capture.regionImage); // this is wrong now
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
