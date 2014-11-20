@@ -9,6 +9,7 @@ import edu.wildlifesecurity.framework.ILogger;
 import edu.wildlifesecurity.framework.ISubscription;
 import edu.wildlifesecurity.framework.Message;
 import edu.wildlifesecurity.framework.MessageEvent;
+import edu.wildlifesecurity.framework.communicatorserver.ConnectEvent;
 import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
 
 /**
@@ -24,11 +25,12 @@ public class SmsChannel extends AbstractChannel {
 	}
 
 	@Override
-	public ISubscription addEventHandler(EventType type,
+	public ISubscription addMessageEventHandler(EventType type,
 			IEventHandler<MessageEvent> handler) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
 	@Override
 	public void sendMessage(Message message) {
@@ -47,5 +49,7 @@ public class SmsChannel extends AbstractChannel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }

@@ -1,32 +1,33 @@
 <linked-list>
   <Capture>
-    <captureId>1</captureId>
-    <timeStamp>2014-11-06 16:16:08.89 UTC</timeStamp>
+    <id>1</id>
+    <timeStamp>2014-10-06 14:16:08.89 UTC</timeStamp>
     <trapDeviceId>1</trapDeviceId>
-    <position>ISYtan</position>
+    <GPSPos>ISYtan</GPSPos>
   </Capture>
-  <Capture>
-    <captureId>2</captureId>
-    <timeStamp>2014-11-06 16:16:19.693 UTC</timeStamp>
+   <Capture>
+    <id>2</id>
+    <timeStamp>2014-11-06 13:16:08.89 UTC</timeStamp>
     <trapDeviceId>2</trapDeviceId>
-    <position>Hemma</position>
+    <GPSPos>Prevas</GPSPos>
   </Capture>
   <Capture>
-    <captureId>3</captureId>
-    <timeStamp>2014-11-08 13:50:01.961 UTC</timeStamp>
-    <trapDeviceId>2</trapDeviceId>
-    <position>Hemma</position>
+    <id>3</id>
+    <timeStamp>2014-12-06 10:15:08.89 UTC</timeStamp>
+    <trapDeviceId>4</trapDeviceId>
+    <GPSPos>Java</GPSPos>
+  </Capture>
+   <Capture>
+    <id>4</id>
+    <timeStamp>2014-11-06 12:19:18.39 UTC</timeStamp>
+    <trapDeviceId>5</trapDeviceId>
+    <GPSPos>Rydsvägen</GPSPos>
   </Capture>
   <Capture>
-    <captureId>4</captureId>
-    <timeStamp>2014-11-12 12:19:06.38 UTC</timeStamp>
-    <trapDeviceId>2</trapDeviceId>
-    <position>Hemma</position>
+    <id>5</id>
+    <timeStamp>2014-11-12 12:19:18.39 UTC</timeStamp>
+    <trapDeviceId>6</trapDeviceId>
+    <GPSPos>Hemköp</GPSPos>
   </Capture>
-  <Capture>
-    <captureId>5</captureId>
-    <timeStamp>2014-11-12 13:12:16.374 UTC</timeStamp>
-    <trapDeviceId>3</trapDeviceId>
-    <position>Java</position>
-  </Capture>
+  
 </linked-list>

@@ -20,7 +20,7 @@ public class InternetChannelTest {
 		
 		channel.startListen();
 		
-		channel.addEventHandler(MessageEvent.getEventType(Message.Commands.HANDSHAKE_REQ), new IEventHandler<MessageEvent>(){
+		channel.addMessageEventHandler(MessageEvent.getEventType(Message.Commands.HANDSHAKE_REQ), new IEventHandler<MessageEvent>(){
 
 			@Override
 			public void handle(MessageEvent event) {

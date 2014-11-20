@@ -101,7 +101,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			FileWriter fw = new FileWriter("captures.xml", false);
 			XStream magicApi = new XStream();
 			magicApi.alias("Capture", Capture.class);
-			magicApi.omitField(Capture.class, "image");
+			magicApi.omitField(Capture.class, "regionImage");
 
 			captures.add(capture);
 
@@ -129,7 +129,8 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			FileReader reader = new FileReader("captures.xml");
 			XStream magicApi = new XStream();
 			magicApi.alias("Capture", Capture.class);
-			magicApi.omitField(Capture.class, "image");
+			magicApi.omitField(Capture.class, "regionImage");
+			magicApi.omitField(Capture.class, "classification");
 
 			List<Capture> captures = (List<Capture>) magicApi.fromXML(reader);
 

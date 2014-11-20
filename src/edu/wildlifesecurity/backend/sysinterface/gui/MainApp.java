@@ -3,6 +3,7 @@ package edu.wildlifesecurity.backend.sysinterface.gui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +16,8 @@ import edu.wildlifesecurity.backend.ISystemInterface;
 import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableCapture;
 import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableTrapDevice;
 import edu.wildlifesecurity.backend.sysinterface.gui.view.TabController;
+import edu.wildlifesecurity.framework.IEventHandler;
+import edu.wildlifesecurity.framework.LogEvent;
 import edu.wildlifesecurity.framework.communicatorserver.ICommunicatorServer;
 import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
 import edu.wildlifesecurity.framework.repository.IRepository;
@@ -27,6 +30,8 @@ public class MainApp extends Application implements ISystemInterface {
     private Stage primaryStage;
     public BorderPane rootLayout;
     private Thread guiThread;
+    
+    
     
     /**
      * The data as an observable list of Persons.
@@ -60,13 +65,23 @@ public class MainApp extends Application implements ISystemInterface {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Capture View");
         
+        repository.addEventHandler(LogEvent.INFO, new IEventHandler<LogEvent>(){
+
+			@Override
+			public void handle(LogEvent event) {
+				System.out.println("new event");
+				
+			}
+        	
+        });
+        
         initRootLayout();
         showTabView();
         List<Capture> captures=new ArrayList<Capture>();
         try{
         	captures=MainApp.repository.getCaptureDefinitions();
         }catch(Exception e){
-        	
+        	System.out.println("no captures found");
         }
         for (Capture c: captures)
         {
@@ -78,7 +93,7 @@ public class MainApp extends Application implements ISystemInterface {
        try{
     	   trapDevices=MainApp.communicator.getConnectedTrapDevices();
        }catch(Exception e){
-       	
+    	   System.out.println("no trapDevices found");
        }
         for (TrapDevice t:trapDevices)
         {

@@ -19,6 +19,7 @@ import edu.wildlifesecurity.framework.ILogger;
 import edu.wildlifesecurity.framework.ISubscription;
 import edu.wildlifesecurity.framework.Message;
 import edu.wildlifesecurity.framework.MessageEvent;
+import edu.wildlifesecurity.framework.communicatorserver.ConnectEvent;
 import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
 
 /**
@@ -31,16 +32,18 @@ public class InternetChannel extends AbstractChannel {
 	private Thread listeningThread;
 	private List<TrapDeviceConnection> trapDeviceConnections;
 	private AsynchronousServerSocketChannel server;
-	private EventDispatcher<MessageEvent> eventDispatcher = new EventDispatcher<MessageEvent>();
-	
+	private EventDispatcher<MessageEvent> messageEventDispatcher = new EventDispatcher<MessageEvent>();
+
+
 	public InternetChannel(ILogger logger, Map<String, Object> config) {
 		super(logger, config);
 	}
 
 	@Override
-	public ISubscription addEventHandler(EventType type, IEventHandler<MessageEvent> handler) {
-		return eventDispatcher.addEventHandler(type, handler);
+	public ISubscription addMessageEventHandler(EventType type, IEventHandler<MessageEvent> handler) {
+		return messageEventDispatcher.addEventHandler(type, handler);
 	}
+	
 
 	@Override
 	public void sendMessage(Message message) {
@@ -76,7 +79,7 @@ public class InternetChannel extends AbstractChannel {
 				while(true){
 					
 					try {
-						TrapDeviceConnection connection = new TrapDeviceConnection(trapDeviceCounter++, server.accept().get(), eventDispatcher);
+						TrapDeviceConnection connection = new TrapDeviceConnection(trapDeviceCounter++, server.accept().get(), messageEventDispatcher);
 						
 						trapDeviceConnections.add(connection);
 						
@@ -151,6 +154,8 @@ public class InternetChannel extends AbstractChannel {
         }
 
 	}
+
+
 
 
 }

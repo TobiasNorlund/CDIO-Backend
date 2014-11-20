@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.wildlifesecurity.framework.AbstractComponent;
+import edu.wildlifesecurity.framework.EventDispatcher;
 import edu.wildlifesecurity.framework.EventType;
 import edu.wildlifesecurity.framework.IEventHandler;
 import edu.wildlifesecurity.framework.ILogger;
@@ -23,6 +24,7 @@ import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
 public class Communicator extends AbstractComponent implements ICommunicatorServer {
 	
 	private AbstractChannel channel;
+	private EventDispatcher<ConnectEvent> connectEventDispatcher = new EventDispatcher<ConnectEvent>();
 	
 	@Override
 	public void init(){
@@ -38,7 +40,7 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 			channel.startListen();
 			
 			// Add handler for sending configuration on new connection
-			channel.addEventHandler(MessageEvent.getEventType(Message.Commands.HANDSHAKE_REQ), new IEventHandler<MessageEvent>(){
+			channel.addMessageEventHandler(MessageEvent.getEventType(Message.Commands.HANDSHAKE_REQ), new IEventHandler<MessageEvent>(){
 				@Override
 				public void handle(MessageEvent event) {
 					// A new Trap Device has connected! Send Handshake Acknowledge
@@ -56,6 +58,7 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 					}
 
 					channel.sendMessage(new Message(event.getMessage().getSender(), message));
+					connectEventDispatcher.dispatch(new ConnectEvent(ConnectEvent.NEW_TRAPDEVICE,new TrapDevice(1,"Hemma")));
 					log.info("New TrapDevice connected!");
 				}
 			});
@@ -67,7 +70,7 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 
 	@Override
 	public ISubscription addMessageEventHandler(EventType type, IEventHandler<MessageEvent> handler) {
-		return channel.addEventHandler(type, handler);
+		return channel.addMessageEventHandler(type, handler);
 	}
 
 	@Override
@@ -84,8 +87,7 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 	@Override
 	public ISubscription addConnectEventHandler(EventType type,
 			IEventHandler<ConnectEvent> handler) {
-		// TODO Auto-generated method stub
-		return null;
+		return connectEventDispatcher.addEventHandler(type, handler);
 	}
 	
 }

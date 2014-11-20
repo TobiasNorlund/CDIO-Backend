@@ -9,6 +9,7 @@ import edu.wildlifesecurity.framework.ILogger;
 import edu.wildlifesecurity.framework.ISubscription;
 import edu.wildlifesecurity.framework.Message;
 import edu.wildlifesecurity.framework.MessageEvent;
+import edu.wildlifesecurity.framework.communicatorserver.ConnectEvent;
 import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
 
 /**
@@ -32,8 +33,8 @@ public abstract class AbstractChannel {
 	/**
 	 * Adds support for receiving events when messages arrives from TrapDevices
 	 */
-	abstract ISubscription addEventHandler(EventType type, IEventHandler<MessageEvent> handler);
-	
+	abstract ISubscription addMessageEventHandler(EventType type, IEventHandler<MessageEvent> handler);
+		
 	/**
 	 * Sends a string message through the channel to the TrapDevice that is contained in the Message instance.
 	 */
