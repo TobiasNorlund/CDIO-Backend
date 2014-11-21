@@ -1,24 +1,15 @@
 package edu.wildlifesecurity.backend.sysinterface.gui.view;
 
-import java.io.ByteArrayInputStream;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
-import org.opencv.highgui.Highgui;
-
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import edu.wildlifesecurity.backend.sysinterface.gui.MainApp;
-import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableCapture;
+import edu.wildlifesecurity.framework.IEventHandler;
+import edu.wildlifesecurity.framework.LogEvent;
 
 public class LogViewController {
 	
@@ -37,6 +28,8 @@ public class LogViewController {
     private Date logStart;
     
     private Date logEnd;
+    
+    private boolean forced=false;
 
     public LogViewController() {
     }
@@ -46,12 +39,34 @@ public class LogViewController {
     private void initialize() {
     	logEnd=new Date();
     	logStart=new Date(0);
+		MainApp.repository.addEventHandler(LogEvent.INFO, new IEventHandler<LogEvent>(){
+		
+		        	
+					@Override
+					public void handle(LogEvent event) {
+						Platform.runLater(new Runnable() {
+						    @Override
+						    public void run() {
+						    	if (!forced)
+						    	{
+							    	System.out.println("List of log entries updated!");
+							    	logEnd=new Date();
+							    	reloadLog();
+						    	}
+						    }
+						});
+				
+				
+				
+			}
+        	
+        });
     }
     
     @FXML
     void reloadLog(){
     	try{
-    		log=mainApp.repository.getLog(logStart, logEnd);
+    		log=MainApp.repository.getLog(logStart, logEnd);
     	}catch(Exception e){
     		
     	}
@@ -60,17 +75,22 @@ public class LogViewController {
     	{
     		logView.setText(log);
     	}
+    	logView.setScrollTop(Double.MAX_VALUE);
+    	
     	
     }
     
     @FXML
     void handleStartChange(){
+    	forced=true;
     	logStart = Date.from(startDate.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     	reloadLog();
+    	
     }
     
     @FXML
     void handleEndChange(){
+    	forced=true;
     	logEnd = Date.from(endDate.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     	reloadLog();
     }
@@ -84,6 +104,7 @@ public class LogViewController {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     	reloadLog();
+    	
 
      
     }

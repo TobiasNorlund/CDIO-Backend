@@ -14,6 +14,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import edu.wildlifesecurity.backend.sysinterface.gui.MainApp;
 import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableCapture;
+import edu.wildlifesecurity.framework.IEventHandler;
+import edu.wildlifesecurity.framework.Message.Commands;
+import edu.wildlifesecurity.framework.MessageEvent;
 
 public class CaptureViewController {
 	
@@ -39,7 +42,7 @@ public class CaptureViewController {
 
 	
        // Reference to the main application.
-    private MainApp mainApp;
+    private static MainApp mainApp;
 
     /**
      * The constructor.
@@ -55,18 +58,22 @@ public class CaptureViewController {
     @FXML
     private void initialize() {
 
-
-    	captureTimeStampColumn.setCellValueFactory(cellData -> cellData.getValue().timeStampStringProperty());
     	
-    	captureIdColumn.setCellValueFactory(cellData -> cellData.getValue().captureIdStringProperty());
-
     	showCaptureDetails(null);
 
         // Listen for selection changes and show the person details when changed.
         captureTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showCaptureDetails(newValue));
         
-        
+        MainApp.communicator.addMessageEventHandler(MessageEvent.getEventType(Commands.NEW_CAPTURE), new IEventHandler<MessageEvent>(){
+
+			@Override
+			public void handle(MessageEvent event) {
+				System.out.println("List of captures updated!");
+				reloadList();
+			}
+			
+		});
 
     }
 
@@ -77,9 +84,16 @@ public class CaptureViewController {
      */
     
     public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
+        CaptureViewController.mainApp = mainApp;
+        reloadList();
+    }
+    
+    private void reloadList(){
+    	captureTable.setItems(mainApp.getCaptureData());
 
-        captureTable.setItems(mainApp.getCaptureData());
+    	captureTimeStampColumn.setCellValueFactory(cellData -> cellData.getValue().timeStampStringProperty());
+    	
+    	captureIdColumn.setCellValueFactory(cellData -> cellData.getValue().captureIdStringProperty());
     }
     
     public Image matToImage(Mat input) {
@@ -95,7 +109,7 @@ public class CaptureViewController {
             timeStampLabel.setText(capture.getTimeStampString());
         	trapDeviceIdLabel.setText(Integer.toString(capture.getTrapDeviceId()));
         	positionLabel.setText(capture.getPosition());
-        	captureImage.setImage(matToImage(mainApp.repository.getCaptureImage(capture.getCaptureId())));
+        	captureImage.setImage(matToImage(MainApp.repository.getCaptureImage(capture.getCaptureId())));
         	
 
         } else {

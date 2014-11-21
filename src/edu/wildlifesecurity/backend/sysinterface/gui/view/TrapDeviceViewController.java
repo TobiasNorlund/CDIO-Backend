@@ -1,11 +1,13 @@
 package edu.wildlifesecurity.backend.sysinterface.gui.view;
 
 import java.io.ByteArrayInputStream;
+import java.util.Date;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.highgui.Highgui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -15,6 +17,9 @@ import javafx.scene.image.ImageView;
 import edu.wildlifesecurity.backend.sysinterface.gui.MainApp;
 import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableCapture;
 import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableTrapDevice;
+import edu.wildlifesecurity.framework.IEventHandler;
+import edu.wildlifesecurity.framework.LogEvent;
+import edu.wildlifesecurity.framework.communicatorserver.ConnectEvent;
 
 public class TrapDeviceViewController {
 	
@@ -48,13 +53,29 @@ public class TrapDeviceViewController {
 
 
      	
-    	deviceIdColumn.setCellValueFactory(cellData -> cellData.getValue().trapDeviceIdProperty());
 
     	showDeviceDetails(null);
 
         // Listen for selection changes and show the person details when changed.
     	deviceTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showDeviceDetails(newValue));
+    	
+    	MainApp.communicator.addConnectEventHandler(ConnectEvent.NEW_TRAPDEVICE, new IEventHandler<ConnectEvent>(){
+    		
+
+			@Override
+			public void handle(ConnectEvent event) {
+				Platform.runLater(new Runnable() {
+				    @Override
+				    public void run() {
+				    	reloadList();
+				    	System.out.println("List of TrapDevices updated");
+				    }
+				});
+				
+			}
+	
+});
         
         
 
@@ -80,8 +101,14 @@ public class TrapDeviceViewController {
     
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
+        reloadList();
+        
+    }
+    
+    private void reloadList(){
+    	deviceTable.setItems(mainApp.getTrapDeviceData());
+    	deviceIdColumn.setCellValueFactory(cellData -> cellData.getValue().trapDeviceIdProperty());
 
-        deviceTable.setItems(mainApp.getTrapDeviceData());
     }
 
     
