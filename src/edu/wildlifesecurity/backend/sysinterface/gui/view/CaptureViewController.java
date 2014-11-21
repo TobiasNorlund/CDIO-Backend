@@ -86,9 +86,11 @@ public class CaptureViewController {
     public void setMainApp(MainApp mainApp) {
         CaptureViewController.mainApp = mainApp;
         reloadList();
+        reloadList();
     }
     
     private void reloadList(){
+    	captureTable.getItems().clear();
     	captureTable.setItems(mainApp.getCaptureData());
 
     	captureTimeStampColumn.setCellValueFactory(cellData -> cellData.getValue().timeStampStringProperty());

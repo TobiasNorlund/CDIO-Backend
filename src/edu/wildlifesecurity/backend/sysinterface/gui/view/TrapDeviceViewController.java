@@ -106,6 +106,8 @@ public class TrapDeviceViewController {
     }
     
     private void reloadList(){
+    	System.out.println(mainApp.getTrapDeviceData());
+    	deviceTable.getItems().clear();
     	deviceTable.setItems(mainApp.getTrapDeviceData());
     	deviceIdColumn.setCellValueFactory(cellData -> cellData.getValue().trapDeviceIdProperty());
 

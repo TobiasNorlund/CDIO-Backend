@@ -53,10 +53,30 @@ public class MainApp extends Application implements ISystemInterface {
      */
     
     public ObservableList<ViewableCapture> getCaptureData() {
+    	 List<Capture> captures=new ArrayList<Capture>();
+         try{
+         	captures=MainApp.repository.getCaptureDefinitions();
+         }catch(Exception e){
+         	System.out.println("no captures found");
+         }
+         for (Capture c: captures)
+         {
+         	captureData.add(new ViewableCapture(c));
+         }
         return captureData;
     }
     
     public ObservableList<ViewableTrapDevice> getTrapDeviceData() {
+    	List<TrapDevice> trapDevices=new ArrayList<TrapDevice>(); 
+        try{
+     	   trapDevices=MainApp.communicator.getConnectedTrapDevices();
+        }catch(Exception e){
+     	   System.out.println("no trapDevices found");
+        }
+         for (TrapDevice t:trapDevices)
+         {
+         	trapDeviceData.add(new ViewableTrapDevice(t));
+         }
         return trapDeviceData;
     }
 
@@ -65,42 +85,8 @@ public class MainApp extends Application implements ISystemInterface {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Capture View");
         
-        repository.addEventHandler(LogEvent.INFO, new IEventHandler<LogEvent>(){
-
-			@Override
-			public void handle(LogEvent event) {
-				System.out.println("new event");
-				
-			}
-        	
-        });
-        
         initRootLayout();
         showTabView();
-        List<Capture> captures=new ArrayList<Capture>();
-        try{
-        	captures=MainApp.repository.getCaptureDefinitions();
-        }catch(Exception e){
-        	System.out.println("no captures found");
-        }
-        for (Capture c: captures)
-        {
-        	captureData.add(new ViewableCapture(c));
-        }
-
-
-       List<TrapDevice> trapDevices=new ArrayList<TrapDevice>(); 
-       try{
-    	   trapDevices=MainApp.communicator.getConnectedTrapDevices();
-       }catch(Exception e){
-    	   System.out.println("no trapDevices found");
-       }
-        for (TrapDevice t:trapDevices)
-        {
-        	trapDeviceData.add(new ViewableTrapDevice(t));
-        }
-
-        
         
 
     }

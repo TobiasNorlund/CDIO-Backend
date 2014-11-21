@@ -41,13 +41,6 @@ public class BackendServerApplication {
 			sysInt.link(repository, communicator);
 		
 		System.out.println("Server is running...");
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		repository.log("INFO","MyNEWEVENT");
 	}
 
 }
