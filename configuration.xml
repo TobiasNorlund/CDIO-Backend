@@ -7,7 +7,9 @@
 	<Detection_InitTime>500</Detection_InitTime>
 	
 	<!-- Identification Component -->
-	<Identification_Classifier>/data/data/edu.wildlifesecurity.trapdevice/files/classifier1.txt</Identification_Classifier>
+	<Identification_Classifier0>/storage/sdcard0/primalVariableRhinoOther.txt</Identification_Classifier0>
+	<Identification_Classifier1>/storage/sdcard0/primalVariableHumanOther.txt</Identification_Classifier1>
+	<Identification_Classifier2>/storage/sdcard0/primalVariableRhinoHuman.txt</Identification_Classifier2>
 	
 	<!-- Analytics Component -->
 	<!-- ... ex tracking parameters -->

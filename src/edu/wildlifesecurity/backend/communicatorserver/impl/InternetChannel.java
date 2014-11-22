@@ -1,6 +1,7 @@
 package edu.wildlifesecurity.backend.communicatorserver.impl;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
@@ -66,7 +67,7 @@ public class InternetChannel extends AbstractChannel {
 					server = AsynchronousServerSocketChannel.open();
 					server.bind(new InetSocketAddress(Integer.parseInt(configuration.get("CommunicatorServer_Port").toString())));
 					
-					log.info("TCP server started. Waiting for connections...");
+					log.info("TCP server started on port " + configuration.get("CommunicatorServer_Port") + ". Waiting for connections...");
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -114,6 +115,8 @@ public class InternetChannel extends AbstractChannel {
 		private AsynchronousSocketChannel connection;
 		private ByteBuffer incomingBuffer = ByteBuffer.allocateDirect(2048);
 		
+		private String currentMessage = "";
+		
 		private TrapDeviceConnection(int id, AsynchronousSocketChannel conn, EventDispatcher<MessageEvent> eventDispatcher) throws IOException{
 			this.trapDevice = new TrapDevice();
 			this.trapDevice.id = id;
@@ -125,15 +128,43 @@ public class InternetChannel extends AbstractChannel {
 		
 		public void completed(Integer result, ByteBuffer buffer)
         {
-            buffer.flip();
-            String msgReceived = Charset.defaultCharset().decode(buffer).toString().replaceAll("\\n", "");
-            log.info("TrapDevice " + trapDevice.id + ": " + msgReceived);
-            eventDispatcher.dispatch(
-            		new MessageEvent(MessageEvent.getEventType(msgReceived.split(",")[0]), 
-            				new Message(msgReceived, trapDevice.id)));
-            buffer.clear();
-            
-            connection.read(incomingBuffer, incomingBuffer, this);
+			if(result == -1)
+			{
+				try {
+					connection.close();
+					System.out.println("Anslutningen bröts till TrapDevice");
+				} catch (IOException e) {
+					System.out.println("Kunde inte stänga anslutning till TrapDevice");
+				}
+				return;
+			}
+			buffer.flip();
+			List<String> fullMessages = new LinkedList<String>();
+			while(buffer.hasRemaining()){
+				Byte b = buffer.get();
+				// If newline character, split messages
+				if(b == 0x0A){
+					fullMessages.add(currentMessage);
+					currentMessage = "";
+					continue;
+				}
+				// Decode byte to string and add to current message
+				try {
+					currentMessage += new String(new byte[] {b}, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					System.out.println("Fel! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			
+			for(String message : fullMessages){
+	            log.info("TrapDevice " + trapDevice.id + ": " + message);
+	            eventDispatcher.dispatch(
+	            		new MessageEvent(MessageEvent.getEventType(message.split(",")[0]), 
+	            				new Message(message, trapDevice.id)));
+			}
+			buffer.clear();
+			connection.read(incomingBuffer, incomingBuffer, this);
         }
         public void failed(Throwable exc, ByteBuffer buffer)
         {
