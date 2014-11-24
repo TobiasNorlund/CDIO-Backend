@@ -10,6 +10,7 @@ import edu.wildlifesecurity.backend.sysinterface.WebApiInterface;
 import edu.wildlifesecurity.backend.sysinterface.gui.MainApp;
 import edu.wildlifesecurity.framework.SurveillanceServerManager;
 import edu.wildlifesecurity.framework.actuator.impl.DefaultActuator;
+import edu.wildlifesecurity.framework.tracking.impl.SerializableCapture;
 
 public class BackendServerApplication {
 
@@ -18,6 +19,9 @@ public class BackendServerApplication {
 		/// Entry point for backend server application
 		
 		// --------------------------------------
+		
+		// Inject dependencies
+		SerializableCapture.decoder = new PngDecoder();
 		
 		// Create components
 		DefaultActuator actuator = new DefaultActuator();
