@@ -7,6 +7,15 @@
 	<Detection_InitTime>500</Detection_InitTime>
 	
 	<!-- Identification Component -->
+	<Identification_imageSide>240</Identification_imageSide>
+	<Identification_hog_blockSide>16</Identification_hog_blockSide>
+	<Identification_hog_blockStrideSide>8</Identification_hog_blockStrideSide>
+	<Identification_hog_cellSide>8</Identification_hog_cellSide>
+	<Identification_hog_numberOfBins>9</Identification_hog_numberOfBins>
+	<Identification_libsvm_kernelType>0</Identification_libsvm_kernelType>
+	<Identification_libsvm_C>16</Identification_libsvm_C>
+	<Identification_libsvm_eps>0.01</Identification_libsvm_eps>
+	<Identification_numberOfClasses>3</Identification_numberOfClasses>
 	<Identification_Classifier0>/storage/sdcard0/primalVariableRhinoOther.txt</Identification_Classifier0>
 	<Identification_Classifier1>/storage/sdcard0/primalVariableHumanOther.txt</Identification_Classifier1>
 	<Identification_Classifier2>/storage/sdcard0/primalVariableRhinoHuman.txt</Identification_Classifier2>
