@@ -16,17 +16,17 @@
 	<Identification_libsvm_C>16</Identification_libsvm_C>
 	<Identification_libsvm_eps>0.01</Identification_libsvm_eps>
 	<Identification_numberOfClasses>3</Identification_numberOfClasses>
-	<Identification_Classifier0>/storage/sdcard0/primalVariableRhinoOther.txt</Identification_Classifier0>
-	<Identification_Classifier1>/storage/sdcard0/primalVariableHumanOther.txt</Identification_Classifier1>
-	<Identification_Classifier2>/storage/sdcard0/primalVariableRhinoHuman.txt</Identification_Classifier2>
+	<Identification_Classifier0>/storage/sdcard0/wRhinoOther.txt</Identification_Classifier0>
+	<Identification_Classifier1>/storage/sdcard0/wHumanOther.txt</Identification_Classifier1>
+	<Identification_Classifier2>/storage/sdcard0/wRhinoHuman.txt</Identification_Classifier2>
 	
 	<!-- ITracking Component -->
-	<Tracking_max_predict_pos_error> 80 </Tracking_max_predict_pos_error>
-	<Tracking_max_predict_height_error> 0.5 </Tracking_max_predict_height_error>
-	<Tracking_max_predict_width_error> 0.5 </Tracking_max_predict_width_error>
-	<Tracking_num_of_missing_frames> 7 </Tracking_num_of_missing_frames>
-	<Tracking_ratio_of_same_classification> 0.7 </Tracking_ratio_of_same_classification>
-	<Tracking_num_of_seen_frames> 10 </Tracking_num_of_seen_frames>
+	<Tracking_max_predict_pos_error>80</Tracking_max_predict_pos_error>
+	<Tracking_max_predict_height_error>0.5</Tracking_max_predict_height_error>
+	<Tracking_max_predict_width_error>0.5</Tracking_max_predict_width_error>
+	<Tracking_num_of_missing_frames>7</Tracking_num_of_missing_frames>
+	<Tracking_ratio_of_same_classification>0.7</Tracking_ratio_of_same_classification>
+	<Tracking_num_of_seen_frames>10</Tracking_num_of_seen_frames>
 		
 	
 	<!-- Analytics Component -->
@@ -42,9 +42,5 @@
 	<!-- CommunicatorServer Component -->
 	<CommunicatorServer_Channel>edu.wildlifesecurity.backend.communicatorserver.impl.InternetChannel</CommunicatorServer_Channel>
 	<CommunicatorServer_Port>9090</CommunicatorServer_Port>
-	
-	<!-- CommunicatorClient Component -->
-	<CommunicatorClient_Channel>edu.wildlifesecurity.trapdevice.communicatorclient.impl.InternetChannel</CommunicatorClient_Channel>
-	
 
 </configuration>

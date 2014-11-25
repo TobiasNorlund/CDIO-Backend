@@ -42,7 +42,7 @@ public class BackendServerApplication {
 		
 		// Link System Interfaces (GUI)
 		for(ISystemInterface sysInt : systemInterfaces)
-			sysInt.link(repository, communicator);
+			sysInt.link(repository, communicator, actuator);
 		
 		System.out.println("Server is running...");
 	}

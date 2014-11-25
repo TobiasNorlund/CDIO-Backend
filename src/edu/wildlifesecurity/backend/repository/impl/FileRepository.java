@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -31,6 +32,11 @@ import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.converters.collections.MapConverter;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.io.naming.NoNameCoder;
+import com.thoughtworks.xstream.io.xml.Dom4JDriver;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
 
 import edu.wildlifesecurity.framework.AbstractComponent;
 import edu.wildlifesecurity.framework.EventDispatcher;
@@ -157,7 +163,8 @@ public class FileRepository extends AbstractComponent implements IRepository {
 	}
 
 	public void saveConfiguration() {
-		XStream magicApi = new XStream();
+		NoNameCoder nameCoder = new NoNameCoder(); 
+		XStream magicApi = new XStream(new StaxDriver(nameCoder));
 		magicApi.registerConverter(new MapEntryConverter());
 		magicApi.alias("configuration", Map.class);
 
@@ -277,12 +284,12 @@ public class FileRepository extends AbstractComponent implements IRepository {
 	}
 
 	@Override
-	public void setConfigOption(String option, Object value) {
+	public void setConfigOption(String option, String value) {
 		configuration.put(option, value);
 		saveConfiguration();
 	}
 
-	public static class MapEntryConverter implements Converter {
+	private static class MapEntryConverter implements Converter {
 
 		public boolean canConvert(Class clazz) {
 			return AbstractMap.class.isAssignableFrom(clazz);
@@ -294,7 +301,9 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			AbstractMap map = (AbstractMap) value;
 			for (Object obj : map.entrySet()) {
 				Map.Entry entry = (Map.Entry) obj;
-				writer.startNode(entry.getKey().toString());
+				String option = entry.getKey().toString();
+				
+				writer.startNode(option);
 				writer.setValue(entry.getValue().toString());
 				writer.endNode();
 			}
@@ -369,7 +378,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 
 	}
 
-	public class ReverseLineInputStream extends InputStream {
+	private class ReverseLineInputStream extends InputStream {
 
 		RandomAccessFile in;
 

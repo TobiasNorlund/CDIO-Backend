@@ -18,6 +18,7 @@ import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableTrapDevice;
 import edu.wildlifesecurity.backend.sysinterface.gui.view.TabController;
 import edu.wildlifesecurity.framework.IEventHandler;
 import edu.wildlifesecurity.framework.LogEvent;
+import edu.wildlifesecurity.framework.actuator.IActuator;
 import edu.wildlifesecurity.framework.communicatorserver.ICommunicatorServer;
 import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
 import edu.wildlifesecurity.framework.repository.IRepository;
@@ -142,7 +143,7 @@ public class MainApp extends Application implements ISystemInterface {
     }
 
 	@Override
-	public void link(IRepository repository, ICommunicatorServer communicator) {
+	public void link(IRepository repository, ICommunicatorServer communicator, IActuator actuator) {
 		// TODO Auto-generated method stub
 
 		MainApp.repository=repository;

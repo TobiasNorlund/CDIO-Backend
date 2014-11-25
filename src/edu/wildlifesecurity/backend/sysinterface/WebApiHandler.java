@@ -16,6 +16,9 @@ import javax.ws.rs.core.Response.Status;
 import org.opencv.core.MatOfByte;
 import org.opencv.highgui.Highgui;
 
+import edu.wildlifesecurity.framework.Message;
+import edu.wildlifesecurity.framework.Message.Commands;
+
 @Path("/api")
 public class WebApiHandler {
 	
@@ -26,8 +29,28 @@ public class WebApiHandler {
     }
     
     @PUT @Path("/config-option")
-    public Response getConfigOption(@QueryParam("o") String option, @QueryParam("v") String value) {
+    public Response setConfigOption(@QueryParam("o") String option, @QueryParam("v") String value) {
         WebApiInterface.getInstance().getRepository().setConfigOption(option, value);
+        return Response.status(Status.ACCEPTED).build();
+    }
+    
+    @PUT @Path("/config-trap-option")
+    public Response setTrapConfigOption(@QueryParam("o") String option, @QueryParam("v") String value, @QueryParam("trap") int trapDeviceId) {
+
+    	switch(option.split("_")[0]){
+    	case "CommunicatorServer":
+    		WebApiInterface.getInstance().getCommunicator().setConfigOption(option, value);
+    		break;
+    	case "Actuator":
+    		WebApiInterface.getInstance().getActuator().setConfigOption(option, value);
+    		break;
+    	case "Repository":
+    		WebApiInterface.getInstance().getRepository().setConfigOption(option, value);
+    		break;
+    	default:
+    		WebApiInterface.getInstance().getCommunicator().sendMessage(new Message(trapDeviceId, Commands.SET_CONFIG + "," + option + "," + value));    	
+    	}
+    	
         return Response.status(Status.ACCEPTED).build();
     }
     
