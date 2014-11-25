@@ -6,6 +6,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.highgui.Highgui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -89,12 +90,19 @@ public class CaptureViewController {
     }
     
     private void reloadList(){
-    	captureTable.getItems().clear();
-    	captureTable.setItems(mainApp.getCaptureData());
-
-    	captureTimeStampColumn.setCellValueFactory(cellData -> cellData.getValue().timeStampStringProperty());
     	
-    	captureIdColumn.setCellValueFactory(cellData -> cellData.getValue().captureIdStringProperty());
+    	Platform.runLater(new Runnable() {
+    		   @Override
+    		   public void run() {
+    		    	captureTable.getItems().clear();
+    		    	captureTable.setItems(mainApp.getCaptureData());
+
+    		    	captureTimeStampColumn.setCellValueFactory(cellData -> cellData.getValue().timeStampStringProperty());
+    		    	
+    		    	captureIdColumn.setCellValueFactory(cellData -> cellData.getValue().captureIdStringProperty());
+    		   }
+    		});
+
     }
     
     public Image matToImage(Mat input) {
@@ -104,23 +112,30 @@ public class CaptureViewController {
     	}
     
     private void showCaptureDetails(ViewableCapture capture) {
-        if (capture != null) {
-        	
-        	captureIdLabel.setText(Integer.toString(capture.getCaptureId()));
-            timeStampLabel.setText(capture.getTimeStampString());
-        	trapDeviceIdLabel.setText(Integer.toString(capture.getTrapDeviceId()));
-        	positionLabel.setText(capture.getPosition());
-        	captureImage.setImage(matToImage(MainApp.repository.getCaptureImage(capture.getCaptureId())));
-        	
+//    	Platform.runLater(new Runnable() {
+//    		   @Override
+//    		   public void run() {
+    			   if (capture != null) {
+    		        	
+    		        	captureIdLabel.setText(Integer.toString(capture.getCaptureId()));
+    		            timeStampLabel.setText(capture.getTimeStampString());
+    		        	trapDeviceIdLabel.setText(Integer.toString(capture.getTrapDeviceId()));
+    		        	positionLabel.setText(capture.getPosition());
+    		        	captureImage.setImage(matToImage(MainApp.repository.getCaptureImage(capture.getCaptureId())));
+    		        	
 
-        } else {
+    		        } else {
 
-        	captureIdLabel.setText("");
-            timeStampLabel.setText("");
-        	trapDeviceIdLabel.setText("");
-        	positionLabel.setText("");
-        	imagePath.setText("");
+    		        	captureIdLabel.setText("");
+    		            timeStampLabel.setText("");
+    		        	trapDeviceIdLabel.setText("");
+    		        	positionLabel.setText("");
+    		        	imagePath.setText("");
 
-        }
+    		        }
+    		//   }
+//    		});
+//    	
+       
     }
 }
