@@ -8,8 +8,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -131,12 +133,13 @@ public class FileRepository extends AbstractComponent implements IRepository {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Capture> getCaptureDefinitions() {
+		String fileName="captures.xml";
 		try {
-			FileReader reader = new FileReader("captures.xml");
+			FileReader reader = new FileReader(fileName);
 			XStream magicApi = new XStream();
 			magicApi.alias("Capture", Capture.class);
 			magicApi.omitField(Capture.class, "regionImage");
-			magicApi.omitField(Capture.class, "classification");
+			//magicApi.omitField(Capture.class, "classification");
 
 			List<Capture> captures = (List<Capture>) magicApi.fromXML(reader);
 
@@ -145,10 +148,20 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			return captures;
 
 		} catch (IOException ioe) {
-			ioe.printStackTrace();
-			error("Error in FileRepository. Could not load configuration file:\n"
-					+ ioe.getMessage());
+			warn("No capture file was found. A new capture file has been created!");
+			
+			PrintWriter writer = null;
+			try {
+				writer = new PrintWriter(fileName, "UTF-8");
+			} catch (FileNotFoundException | UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			writer.println("<linked-list>");
+			writer.println("</linked-list>");
+			writer.close();
 			return new ArrayList<Capture>();
+			
 		}
 	}
 
@@ -205,7 +218,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 		// Use log writer to store the log message
 		try {
 			String logEntry = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-					.format(new Date()) + "\t" + prio + "\t" + msg + "\r\n";
+					.format(new Date()) + "\t" + prio + "\t" + msg.replace("\n","") + "\r\n";
 
 			FileWriter logWriter = new FileWriter("system.log", true);
 			logWriter.append(logEntry);
@@ -233,7 +246,8 @@ public class FileRepository extends AbstractComponent implements IRepository {
 
 	public String getLog(Date startTime, Date endTime) {
 		// function for getting logs from system.log file
-		File file = new File("system.log");
+		String fileName="system.log";
+		File file = new File(fileName);
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		BufferedReader in = null;
 		String log = "\n";
@@ -249,14 +263,27 @@ public class FileRepository extends AbstractComponent implements IRepository {
 				if (line == null) {
 					break;
 				}
-				time = df.parse(line.split("\t")[0]);
-				if (startTime.compareTo(time) * time.compareTo(endTime) > 0) {
-					log = line + "\n" + log;
+				if (!line.isEmpty()){
+					time = df.parse(line.split("\t")[0]);
+					if (startTime.compareTo(time) * time.compareTo(endTime) > 0) {
+						log = line + "\n" + log;
+					}
 				}
+					
+
 			}
 			in.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			PrintWriter writer = null;
+			try {
+				writer = new PrintWriter(fileName, "UTF-8");
+			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			writer.println("<linked-list>");
+			writer.println("</linked-list>");
+			writer.close();
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();

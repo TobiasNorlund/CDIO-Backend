@@ -1,10 +1,10 @@
 <configuration>
     
     <!-- MediaSource Component -->
-	<MediaSource_FrameRate>1000</MediaSource_FrameRate>
+	<MediaSource_FrameRate>500</MediaSource_FrameRate>
 	
 	<!-- Detection Component -->
-	<Detection_InitTime>500</Detection_InitTime>
+	<Detection_InitTime>10</Detection_InitTime>
 	
 	<!-- Identification Component -->
 	<Identification_imageSide>240</Identification_imageSide>

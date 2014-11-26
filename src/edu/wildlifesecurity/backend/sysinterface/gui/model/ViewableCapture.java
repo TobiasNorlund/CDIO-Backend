@@ -7,6 +7,7 @@ import java.time.ZoneId;
 
 import org.opencv.core.Mat;
 
+import edu.wildlifesecurity.framework.identification.Classes;
 import edu.wildlifesecurity.framework.tracking.Capture;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -34,12 +35,29 @@ public class ViewableCapture {
 	
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
+	private StringProperty classes;
+	
 	private Capture rawCapture;
     /**
      * Default constructor.
      */
     public ViewableCapture() {
         this(null, null,null, null, null, null);
+    }
+    
+    private String getClass(Classes input){
+    	switch (input){
+    	case HUMAN:
+    		return "Human";
+    	case RHINO:
+    		return "Rhino";
+    	case UNIDENTIFIED:
+    		return "Unidentified";
+    	default:
+    		return "";
+    	}
+    	
+    	
     }
 
     /**
@@ -66,6 +84,7 @@ public class ViewableCapture {
     	this.image = new SimpleObjectProperty<Mat>(cap.regionImage);
     	this.timeStampString = new SimpleStringProperty(df.format(cap.timeStamp));
     	this.captureIdString = new SimpleStringProperty(Integer.toString(cap.id));
+    	this.classes = new SimpleStringProperty(getClass(cap.classification));
     	this.rawCapture=cap;
 
     }
@@ -164,6 +183,19 @@ public class ViewableCapture {
     //Image
     public Capture getRawCapture() {
         return this.rawCapture;
+    }
+    
+  //Classes
+    public String getClassString() {
+        return classes.get();
+    }
+
+    public void setClassString(String timeString) {
+        this.classes.set(timeString);
+    }
+
+    public StringProperty timeClassProperty() {
+        return classes;
     }
 
     

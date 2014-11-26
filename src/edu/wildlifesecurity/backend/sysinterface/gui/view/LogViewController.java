@@ -7,7 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
-import edu.wildlifesecurity.backend.sysinterface.gui.MainApp;
+import edu.wildlifesecurity.backend.sysinterface.gui.JavaFXGUI;
 import edu.wildlifesecurity.framework.IEventHandler;
 import edu.wildlifesecurity.framework.LogEvent;
 
@@ -18,7 +18,7 @@ public class LogViewController {
 	@FXML
 	private DatePicker endDate;
 	
-    private MainApp mainApp;
+    private JavaFXGUI javaFXGUI;
     
     private String log="";
     
@@ -67,7 +67,7 @@ public class LogViewController {
     void reloadLog(){
     	logView.clear();
     	try{
-    		log=MainApp.repository.getLog(logStart, logEnd);
+    		log=JavaFXGUI.repository.getLog(logStart, logEnd);
     	}catch(Exception e){
     		
     	}
@@ -99,11 +99,11 @@ public class LogViewController {
     /**
      * Is called by the main application to give a reference back to itself.
      * 
-     * @param mainApp
+     * @param javaFXGUI
      */
     
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
+    public void setMainApp(JavaFXGUI javaFXGUI) {
+        this.javaFXGUI = javaFXGUI;
     	
 
      

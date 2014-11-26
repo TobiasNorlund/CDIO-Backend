@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
-import edu.wildlifesecurity.backend.sysinterface.gui.MainApp;
+import edu.wildlifesecurity.backend.sysinterface.gui.JavaFXGUI;
 import edu.wildlifesecurity.backend.sysinterface.gui.view.CaptureViewController;
 import edu.wildlifesecurity.backend.sysinterface.gui.view.LogViewController;
 
@@ -19,7 +19,7 @@ public class TabController {
 	@FXML
 	private Tab tabDevicesPane;
 	
-	private MainApp mainApp;
+	private JavaFXGUI javaFXGUI;
 
     public TabController() {
     }
@@ -35,14 +35,14 @@ public class TabController {
 
             FXMLLoader loader = new FXMLLoader();
 
-            loader.setLocation(MainApp.class.getResource("view/CaptureView.fxml"));
+            loader.setLocation(JavaFXGUI.class.getResource("view/CaptureView.fxml"));
             AnchorPane captureOverview = (AnchorPane) loader.load();    
 
             capturePane.setContent(captureOverview);
 
             
             CaptureViewController controller = loader.getController();
-            controller.setMainApp(this.mainApp);
+            controller.setMainApp(this.javaFXGUI);
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,13 +53,13 @@ public class TabController {
         try {
             
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/LogView.fxml"));
+            loader.setLocation(JavaFXGUI.class.getResource("view/LogView.fxml"));
             AnchorPane logOverview = (AnchorPane) loader.load();
             
             logPane.setContent(logOverview);
             
             LogViewController controller = loader.getController();
-            controller.setMainApp(this.mainApp);
+            controller.setMainApp(this.javaFXGUI);
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,14 +71,14 @@ public class TabController {
 
             FXMLLoader loader = new FXMLLoader();
 
-            loader.setLocation(MainApp.class.getResource("view/TrapDeviceView.fxml"));
+            loader.setLocation(JavaFXGUI.class.getResource("view/TrapDeviceView.fxml"));
             AnchorPane captureOverview = (AnchorPane) loader.load();    
 
             tabDevicesPane.setContent(captureOverview);
 
             
             TrapDeviceViewController controller = loader.getController();
-            controller.setMainApp(this.mainApp);
+            controller.setMainApp(this.javaFXGUI);
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,11 +89,11 @@ public class TabController {
     /**
      * Is called by the main application to give a reference back to itself.
      * 
-     * @param mainApp
+     * @param javaFXGUI
      */
     
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
+    public void setMainApp(JavaFXGUI javaFXGUI) {
+        this.javaFXGUI = javaFXGUI;
     	showLogView();
     	showCaptureView();
     	showTrapDevicesView();

@@ -13,7 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import edu.wildlifesecurity.backend.sysinterface.gui.MainApp;
+import edu.wildlifesecurity.backend.sysinterface.gui.JavaFXGUI;
 import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableCapture;
 import edu.wildlifesecurity.framework.IEventHandler;
 import edu.wildlifesecurity.framework.Message.Commands;
@@ -37,13 +37,13 @@ public class CaptureViewController {
 	@FXML
 	private Label positionLabel;
 	@FXML
-	private Label imagePath;
+	private Label classification;
 	@FXML
 	private ImageView captureImage;
 
 	
        // Reference to the main application.
-    private static MainApp mainApp;
+    private static JavaFXGUI javaFXGUI;
 
     /**
      * The constructor.
@@ -66,7 +66,7 @@ public class CaptureViewController {
         captureTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showCaptureDetails(newValue));
         
-        MainApp.communicator.addMessageEventHandler(MessageEvent.getEventType(Commands.NEW_CAPTURE), new IEventHandler<MessageEvent>(){
+        JavaFXGUI.communicator.addMessageEventHandler(MessageEvent.getEventType(Commands.NEW_CAPTURE), new IEventHandler<MessageEvent>(){
 
 			@Override
 			public void handle(MessageEvent event) {
@@ -81,11 +81,11 @@ public class CaptureViewController {
     /**
      * Is called by the main application to give a reference back to itself.
      * 
-     * @param mainApp
+     * @param javaFXGUI
      */
     
-    public void setMainApp(MainApp mainApp) {
-        CaptureViewController.mainApp = mainApp;
+    public void setMainApp(JavaFXGUI javaFXGUI) {
+        CaptureViewController.javaFXGUI = javaFXGUI;
         reloadList();
     }
     
@@ -95,7 +95,7 @@ public class CaptureViewController {
     		   @Override
     		   public void run() {
     		    	captureTable.getItems().clear();
-    		    	captureTable.setItems(mainApp.getCaptureData());
+    		    	captureTable.setItems(javaFXGUI.getCaptureData());
 
     		    	captureTimeStampColumn.setCellValueFactory(cellData -> cellData.getValue().timeStampStringProperty());
     		    	
@@ -121,7 +121,8 @@ public class CaptureViewController {
     		            timeStampLabel.setText(capture.getTimeStampString());
     		        	trapDeviceIdLabel.setText(Integer.toString(capture.getTrapDeviceId()));
     		        	positionLabel.setText(capture.getPosition());
-    		        	captureImage.setImage(matToImage(MainApp.repository.getCaptureImage(capture.getCaptureId())));
+    		        	captureImage.setImage(matToImage(JavaFXGUI.repository.getCaptureImage(capture.getCaptureId())));
+    		        	classification.setText(capture.getClassString());
     		        	
 
     		        } else {
@@ -130,7 +131,7 @@ public class CaptureViewController {
     		            timeStampLabel.setText("");
     		        	trapDeviceIdLabel.setText("");
     		        	positionLabel.setText("");
-    		        	imagePath.setText("");
+    		        	classification.setText("");
 
     		        }
     		//   }
