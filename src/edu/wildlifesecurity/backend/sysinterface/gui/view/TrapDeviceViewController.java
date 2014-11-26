@@ -14,7 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import edu.wildlifesecurity.backend.sysinterface.gui.MainApp;
+import edu.wildlifesecurity.backend.sysinterface.gui.JavaFXGUI;
 import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableCapture;
 import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableTrapDevice;
 import edu.wildlifesecurity.framework.IEventHandler;
@@ -35,7 +35,7 @@ public class TrapDeviceViewController {
  
 	
        // Reference to the main application.
-    private MainApp mainApp;
+    private JavaFXGUI javaFXGUI;
 
     /**
      * The constructor.
@@ -60,7 +60,7 @@ public class TrapDeviceViewController {
     	deviceTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showDeviceDetails(newValue));
     	
-    	MainApp.communicator.addConnectEventHandler(ConnectEvent.NEW_TRAPDEVICE, new IEventHandler<ConnectEvent>(){
+    	JavaFXGUI.communicator.addConnectEventHandler(ConnectEvent.NEW_TRAPDEVICE, new IEventHandler<ConnectEvent>(){
     		
 
 			@Override
@@ -96,19 +96,19 @@ public class TrapDeviceViewController {
     /**
      * Is called by the main application to give a reference back to itself.
      * 
-     * @param mainApp
+     * @param javaFXGUI
      */
     
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
+    public void setMainApp(JavaFXGUI javaFXGUI) {
+        this.javaFXGUI = javaFXGUI;
         reloadList();
         
     }
     
     private void reloadList(){
-    	System.out.println(mainApp.getTrapDeviceData());
+    	//System.out.println(javaFXGUI.getTrapDeviceData());
     	deviceTable.getItems().clear();
-    	deviceTable.setItems(mainApp.getTrapDeviceData());
+    	deviceTable.setItems(javaFXGUI.getTrapDeviceData());
     	deviceIdColumn.setCellValueFactory(cellData -> cellData.getValue().trapDeviceIdProperty());
 
     }

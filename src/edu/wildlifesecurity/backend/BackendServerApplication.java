@@ -7,7 +7,7 @@ import javafx.concurrent.Task;
 import edu.wildlifesecurity.backend.communicatorserver.impl.Communicator;
 import edu.wildlifesecurity.backend.repository.impl.FileRepository;
 import edu.wildlifesecurity.backend.sysinterface.WebApiInterface;
-import edu.wildlifesecurity.backend.sysinterface.gui.MainApp;
+import edu.wildlifesecurity.backend.sysinterface.gui.JavaFXGUI;
 import edu.wildlifesecurity.framework.SurveillanceServerManager;
 import edu.wildlifesecurity.framework.actuator.impl.DefaultActuator;
 import edu.wildlifesecurity.framework.tracking.impl.SerializableCapture;
@@ -37,7 +37,7 @@ public class BackendServerApplication {
 		// Create system interfaces ( read from args which to use? )
 		List<ISystemInterface> systemInterfaces = new LinkedList<ISystemInterface>();
 		systemInterfaces.add(new WebApiInterface());
-		systemInterfaces.add(new MainApp());
+		systemInterfaces.add(new JavaFXGUI());
 		
 		
 		// Link System Interfaces (GUI)

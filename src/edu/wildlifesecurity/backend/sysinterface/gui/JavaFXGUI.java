@@ -24,7 +24,7 @@ import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
 import edu.wildlifesecurity.framework.repository.IRepository;
 import edu.wildlifesecurity.framework.tracking.Capture;
 
-public class MainApp extends Application implements ISystemInterface {
+public class JavaFXGUI extends Application implements ISystemInterface {
 
 	static public IRepository repository;
 	static public ICommunicatorServer communicator;
@@ -43,7 +43,7 @@ public class MainApp extends Application implements ISystemInterface {
     /**
      * Constructor
      */
-    public MainApp() {
+    public JavaFXGUI() {
         // Add some sample data
 
     }
@@ -56,7 +56,7 @@ public class MainApp extends Application implements ISystemInterface {
     public ObservableList<ViewableCapture> getCaptureData() {
     	 List<Capture> captures=new ArrayList<Capture>();
          try{
-         	captures=MainApp.repository.getCaptureDefinitions();
+         	captures=JavaFXGUI.repository.getCaptureDefinitions();
          }catch(Exception e){
          	System.out.println("no captures found");
          }
@@ -70,7 +70,7 @@ public class MainApp extends Application implements ISystemInterface {
     public ObservableList<ViewableTrapDevice> getTrapDeviceData() {
     	List<TrapDevice> trapDevices=new ArrayList<TrapDevice>(); 
         try{
-     	   trapDevices=MainApp.communicator.getConnectedTrapDevices();
+     	   trapDevices=JavaFXGUI.communicator.getConnectedTrapDevices();
         }catch(Exception e){
      	   System.out.println("no trapDevices found");
         }
@@ -99,7 +99,7 @@ public class MainApp extends Application implements ISystemInterface {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+            loader.setLocation(JavaFXGUI.class.getResource("view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
             
             // Show the scene containing the root layout.
@@ -117,7 +117,7 @@ public class MainApp extends Application implements ISystemInterface {
         try {
             
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/Tabbed.fxml"));
+            loader.setLocation(JavaFXGUI.class.getResource("view/Tabbed.fxml"));
             TabPane logOverview = (TabPane) loader.load();
             
             rootLayout.setCenter(logOverview);
@@ -138,16 +138,11 @@ public class MainApp extends Application implements ISystemInterface {
 		return primaryStage;
 	}
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
 	@Override
 	public void link(IRepository repository, ICommunicatorServer communicator, IActuator actuator) {
-		// TODO Auto-generated method stub
 
-		MainApp.repository=repository;
-		MainApp.communicator=communicator;
+		JavaFXGUI.repository=repository;
+		JavaFXGUI.communicator=communicator;
 
 		guiThread = new Thread(new Runnable(){
 
@@ -155,7 +150,7 @@ public class MainApp extends Application implements ISystemInterface {
 
 				@Override
 				public void run() {
-					launch(MainApp.class);
+					launch(JavaFXGUI.class);
 					
 				}
 			
