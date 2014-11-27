@@ -39,7 +39,7 @@ public class LogViewController {
     private void initialize() {
     	logEnd=new Date();
     	logStart=new Date(0);
-		MainApp.repository.addEventHandler(LogEvent.INFO, new IEventHandler<LogEvent>(){
+		JavaFXGUI.repository.addEventHandler(LogEvent.INFO, new IEventHandler<LogEvent>(){
 		
 		        	
 					@Override
