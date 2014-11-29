@@ -132,9 +132,9 @@ public class InternetChannel extends AbstractChannel {
 			{
 				try {
 					connection.close();
-					System.out.println("Anslutningen bröts till TrapDevice");
+					log.warn("Connection to trap device " + trapDevice.id + " was lost");
 				} catch (IOException e) {
-					System.out.println("Kunde inte stänga anslutning till TrapDevice");
+					log.error("Could not close connection to trap device " + trapDevice.id);
 				}
 				return;
 			}
@@ -158,7 +158,7 @@ public class InternetChannel extends AbstractChannel {
 			}
 			
 			for(String message : fullMessages){
-	            log.info("TrapDevice " + trapDevice.id + ": " + message);
+	            //log.info("TrapDevice " + trapDevice.id + ": " + message);
 	            eventDispatcher.dispatch(
 	            		new MessageEvent(MessageEvent.getEventType(message.split(",")[0]), 
 	            				new Message(message, trapDevice.id)));
