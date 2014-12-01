@@ -4,7 +4,14 @@
 	<MediaSource_FrameRate>500</MediaSource_FrameRate>
 	
 	<!-- Detection Component -->
+	<Detection_varThreshold>20</Detection_varThreshold>
+	<Detection_bShadowDetection>true</Detection_bShadowDetection>
 	<Detection_InitTime>10</Detection_InitTime>
+	<Detection_highLearningRate>0.01</Detection_highLearningRate>
+	<Detection_lowLearningRate>0.004</Detection_lowLearningRate>
+	<Detection_numOperationsInOpening>1</Detection_numOperationsInOpening>
+	<Detection_numOperationsInClosing>2</Detection_numOperationsInClosing>
+	<Detection_MinSizeOfDetectedObjects>500</Detection_MinSizeOfDetectedObjects>
 	
 	<!-- Identification Component -->
 	<Identification_imageSide>240</Identification_imageSide>
