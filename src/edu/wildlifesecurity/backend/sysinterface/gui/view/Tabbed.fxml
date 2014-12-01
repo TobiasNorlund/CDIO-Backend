@@ -9,5 +9,6 @@
     <Tab fx:id="capturePane" text="Captures" />
     <Tab fx:id="logPane" text="Log" />
       <Tab fx:id="tabDevicesPane" text="Trap Devices" />
+      <Tab fx:id="optionsPane" text="Options" />
   </tabs>
 </TabPane>

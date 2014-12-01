@@ -2,7 +2,10 @@ package edu.wildlifesecurity.backend.sysinterface.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -14,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import edu.wildlifesecurity.backend.ISystemInterface;
 import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableCapture;
+import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableOption;
 import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableTrapDevice;
 import edu.wildlifesecurity.backend.sysinterface.gui.view.TabController;
 import edu.wildlifesecurity.framework.IEventHandler;
@@ -39,6 +43,8 @@ public class JavaFXGUI extends Application implements ISystemInterface {
      */
     private ObservableList<ViewableCapture> captureData = FXCollections.observableArrayList();
     private ObservableList<ViewableTrapDevice> trapDeviceData = FXCollections.observableArrayList();
+    private ObservableList<ViewableOption> optionData = FXCollections.observableArrayList();
+    
 
     /**
      * Constructor
@@ -79,6 +85,22 @@ public class JavaFXGUI extends Application implements ISystemInterface {
          	trapDeviceData.add(new ViewableTrapDevice(t));
          }
         return trapDeviceData;
+    }
+    
+    public ObservableList<ViewableOption> getOptionData() {
+        Map<String, Object> config=new HashMap<>();
+        
+        repository.loadConfiguration(config);
+        
+        for (Entry<String, Object> entry : config.entrySet()) {
+        	if (entry.getValue()!=null){
+        		optionData.add(new ViewableOption(entry.getKey(),entry.getValue().toString()));
+        	}
+        	else{
+        		optionData.add(new ViewableOption(entry.getKey(),""));
+        	}
+          }
+        return optionData;
     }
 
     @Override

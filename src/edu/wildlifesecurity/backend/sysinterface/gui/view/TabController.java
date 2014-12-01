@@ -19,6 +19,9 @@ public class TabController {
 	@FXML
 	private Tab tabDevicesPane;
 	
+	@FXML
+	private Tab optionsPane;
+	
 	private JavaFXGUI javaFXGUI;
 
     public TabController() {
@@ -84,6 +87,25 @@ public class TabController {
             e.printStackTrace();
         }
     }
+    
+    public void showOptionView() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader();
+
+            loader.setLocation(JavaFXGUI.class.getResource("view/OptionsView.fxml"));
+            AnchorPane Overview = (AnchorPane) loader.load();    
+
+            optionsPane.setContent(Overview);
+
+            
+            OptionsViewController controller = loader.getController();
+            controller.setMainApp(this.javaFXGUI);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     /**
@@ -97,6 +119,7 @@ public class TabController {
     	showLogView();
     	showCaptureView();
     	showTrapDevicesView();
+    	showOptionView();
      
     }
     

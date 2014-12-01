@@ -8,7 +8,10 @@ import edu.wildlifesecurity.backend.communicatorserver.impl.Communicator;
 import edu.wildlifesecurity.backend.repository.impl.FileRepository;
 import edu.wildlifesecurity.backend.sysinterface.WebApiInterface;
 import edu.wildlifesecurity.backend.sysinterface.gui.JavaFXGUI;
+import edu.wildlifesecurity.framework.IEventHandler;
+import edu.wildlifesecurity.framework.MessageEvent;
 import edu.wildlifesecurity.framework.SurveillanceServerManager;
+import edu.wildlifesecurity.framework.Message.Commands;
 import edu.wildlifesecurity.framework.actuator.impl.DefaultActuator;
 import edu.wildlifesecurity.framework.tracking.impl.SerializableCapture;
 
@@ -43,6 +46,7 @@ public class BackendServerApplication {
 		// Link System Interfaces (GUI)
 		for(ISystemInterface sysInt : systemInterfaces)
 			sysInt.link(repository, communicator, actuator);
+
 		
 		System.out.println("Server is running...");
 	}
