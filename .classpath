@@ -15,7 +15,7 @@
 	<classpathentry kind="lib" path="/CDIO-Framework/Framework.jar" sourcepath="/Framework"/>
 	<classpathentry kind="lib" path="/CDIO-Framework/opencv/opencv-249.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Framework/opencv/native"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="CDIO-Framework/opencv/native"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
