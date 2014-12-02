@@ -66,7 +66,10 @@ public class FileRepository extends AbstractComponent implements IRepository {
 	private DateFormat time = new SimpleDateFormat("HH:mm:ss");
 
 
-	private String getPath(int id){
+	private String getPath(int id) {
+		// Create path if it does not exist
+		new File(String.format(imagePathFormat, id)).mkdirs();
+		
 		return String.format(imagePathFormat, id);
 	}
 	
@@ -117,7 +120,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			fw.close();
 
 			if (capture.regionImage != null) {
-				Highgui.imwrite(getPath(capture.id),	capture.regionImage); // this is wrong now
+				Highgui.imwrite(getPath(capture.id), capture.regionImage); // this is wrong now
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -166,7 +169,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 	}
 
 	@Override
-	public Mat getCaptureImage(int captureId) {
+	public Mat getCaptureImage(int captureId)  {
 		return Highgui.imread(getPath(captureId));
 	}
 	

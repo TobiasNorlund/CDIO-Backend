@@ -84,7 +84,7 @@ public class InternetChannel extends AbstractChannel {
 						
 						trapDeviceConnections.add(connection);
 						
-					} catch (IOException | ExecutionException | InterruptedException e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 						log.error("Error in InternetChannel: Could not establish connection to trap device: " + e.getMessage());
 						return;
