@@ -68,7 +68,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 
 	private String getPath(int id) {
 		// Create path if it does not exist
-		new File(String.format(imagePathFormat, id)).mkdirs();
+		new File(String.format(imagePathFormat, id)).getParentFile().mkdirs();
 		
 		return String.format(imagePathFormat, id);
 	}
