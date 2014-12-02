@@ -31,9 +31,7 @@ public class OptionsViewController {
     
     @FXML
     private Label descriptionBox;
-    
-	private EventDispatcher<MessageEvent> dispatcher = new EventDispatcher<MessageEvent>();
-
+ 
 
 	
        // Reference to the main application.
@@ -72,7 +70,7 @@ public class OptionsViewController {
              	   System.out.println("no trapDevices found");
                 }
                 for (TrapDevice trap:trapDevices){
-                    sendEvent(MessageEvent.getEventType(Commands.SET_CONFIG), new Message(trap.id,message));
+                	JavaFXGUI.communicator.sendMessage(new Message(trap.id,message));
                 }
             }
         });
@@ -103,11 +101,6 @@ public class OptionsViewController {
        
     }
     
-	public void sendEvent(EventType type, Message message)
-	{
-	
-		dispatcher.dispatch(new MessageEvent(type, message));
-	} 
 
 
 
