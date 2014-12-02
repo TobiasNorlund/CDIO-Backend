@@ -12,13 +12,13 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Framework/Framework.jar" sourcepath="/Framework"/>
-	<classpathentry kind="lib" path="/Framework/opencv/opencv-249.jar">
+	<classpathentry kind="lib" path="/CDIO-Framework/Framework.jar" sourcepath="/Framework"/>
+	<classpathentry kind="lib" path="/CDIO-Framework/opencv/opencv-249.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Framework/opencv/native"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Framework/opencv/javapng-2.0.jar"/>
+	<classpathentry kind="lib" path="/CDIO-Framework/opencv/javapng-2.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
