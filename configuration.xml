@@ -1,0 +1,53 @@
+<configuration>
+    
+    <!-- MediaSource Component -->
+	<MediaSource_FrameRate>500</MediaSource_FrameRate>
+	
+	<!-- Detection Component -->
+	<Detection_varThreshold>20</Detection_varThreshold>
+	<Detection_bShadowDetection>true</Detection_bShadowDetection>
+	<Detection_InitTime>10</Detection_InitTime>
+	<Detection_highLearningRate>0.01</Detection_highLearningRate>
+	<Detection_lowLearningRate>0.004</Detection_lowLearningRate>
+	<Detection_numOperationsInOpening>1</Detection_numOperationsInOpening>
+	<Detection_numOperationsInClosing>2</Detection_numOperationsInClosing>
+	<Detection_MinSizeOfDetectedObjects>500</Detection_MinSizeOfDetectedObjects>
+	
+	<!-- Identification Component -->
+	<Identification_imageSide>240</Identification_imageSide>
+	<Identification_hog_blockSide>16</Identification_hog_blockSide>
+	<Identification_hog_blockStrideSide>8</Identification_hog_blockStrideSide>
+	<Identification_hog_cellSide>8</Identification_hog_cellSide>
+	<Identification_hog_numberOfBins>9</Identification_hog_numberOfBins>
+	<Identification_libsvm_kernelType>0</Identification_libsvm_kernelType>
+	<Identification_libsvm_C>16</Identification_libsvm_C>
+	<Identification_libsvm_eps>0.01</Identification_libsvm_eps>
+	<Identification_numberOfClasses>3</Identification_numberOfClasses>
+	<Identification_Classifier0>/storage/sdcard0/wRhinoOther.txt</Identification_Classifier0>
+	<Identification_Classifier1>/storage/sdcard0/wHumanOther.txt</Identification_Classifier1>
+	<Identification_Classifier2>/storage/sdcard0/wRhinoHuman.txt</Identification_Classifier2>
+	
+	<!-- ITracking Component -->
+	<Tracking_max_predict_pos_error>80</Tracking_max_predict_pos_error>
+	<Tracking_max_predict_height_error>0.5</Tracking_max_predict_height_error>
+	<Tracking_max_predict_width_error>0.5</Tracking_max_predict_width_error>
+	<Tracking_num_of_missing_frames>7</Tracking_num_of_missing_frames>
+	<Tracking_ratio_of_same_classification>0.7</Tracking_ratio_of_same_classification>
+	<Tracking_num_of_seen_frames>10</Tracking_num_of_seen_frames>
+		
+	
+	<!-- Analytics Component -->
+	<!-- ... ex tracking parameters -->
+	
+	<!-- Actuator Component -->
+	<Actuator_IP></Actuator_IP>
+	<Actuator_Port>1234</Actuator_Port>
+	<Actuator_Message></Actuator_Message>
+	<Actuator_GuardNumber></Actuator_GuardNumber>
+	<Actuator_Password></Actuator_Password>
+	
+	<!-- CommunicatorServer Component -->
+	<CommunicatorServer_Channel>edu.wildlifesecurity.backend.communicatorserver.impl.InternetChannel</CommunicatorServer_Channel>
+	<CommunicatorServer_Port>9090</CommunicatorServer_Port>
+
+</configuration>

@@ -1,3 +1,6 @@
+system.log
+captures.xml
+Captures/
 *.class
 
 # Maven

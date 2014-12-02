@@ -1,0 +1,142 @@
+package edu.wildlifesecurity.backend.sysinterface.gui.view;
+
+import java.io.ByteArrayInputStream;
+
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.highgui.Highgui;
+
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import edu.wildlifesecurity.backend.sysinterface.gui.JavaFXGUI;
+import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableCapture;
+import edu.wildlifesecurity.framework.IEventHandler;
+import edu.wildlifesecurity.framework.Message.Commands;
+import edu.wildlifesecurity.framework.MessageEvent;
+
+public class CaptureViewController {
+	
+    @FXML
+    private TableView<ViewableCapture> captureTable;
+    @FXML
+    private TableColumn<ViewableCapture, String> captureTimeStampColumn;
+    @FXML
+    private TableColumn<ViewableCapture, String> captureIdColumn;
+
+    @FXML
+	private Label captureIdLabel;
+	@FXML
+	private Label timeStampLabel;
+	@FXML
+	private Label trapDeviceIdLabel;
+	@FXML
+	private Label positionLabel;
+	@FXML
+	private Label classification;
+	@FXML
+	private ImageView captureImage;
+
+	
+       // Reference to the main application.
+    private static JavaFXGUI javaFXGUI;
+
+    /**
+     * The constructor.
+     * The constructor is called before the initialize() method.
+     */
+    public CaptureViewController() {
+    }
+
+    /**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
+    @FXML
+    private void initialize() {
+
+    	
+    	showCaptureDetails(null);
+
+        // Listen for selection changes and show the person details when changed.
+        captureTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showCaptureDetails(newValue));
+        
+        JavaFXGUI.communicator.addMessageEventHandler(MessageEvent.getEventType(Commands.NEW_CAPTURE), new IEventHandler<MessageEvent>(){
+
+			@Override
+			public void handle(MessageEvent event) {
+				System.out.println("List of captures updated!");
+				reloadList();
+			}
+			
+		});
+
+    }
+
+    /**
+     * Is called by the main application to give a reference back to itself.
+     * 
+     * @param javaFXGUI
+     */
+    
+    public void setMainApp(JavaFXGUI javaFXGUI) {
+        CaptureViewController.javaFXGUI = javaFXGUI;
+        reloadList();
+    }
+    
+    private void reloadList(){
+    	
+    	Platform.runLater(new Runnable() {
+    		   @Override
+    		   public void run() {
+    		    	captureTable.getItems().clear();
+    		    	captureTable.setItems(javaFXGUI.getCaptureData());
+
+    		    	captureTimeStampColumn.setCellValueFactory(cellData -> cellData.getValue().timeStampStringProperty());
+    		    	
+    		    	captureIdColumn.setCellValueFactory(cellData -> cellData.getValue().captureIdStringProperty());
+    		   }
+    		});
+
+    }
+    
+    public Image matToImage(Mat input) {
+    	MatOfByte buf = new MatOfByte();    
+    	Highgui.imencode(".png", input, buf);
+    	return new Image(new ByteArrayInputStream(buf.toArray()));
+    	}
+    
+    private void showCaptureDetails(ViewableCapture capture) {
+//    	Platform.runLater(new Runnable() {
+//    		   @Override
+//    		   public void run() {
+    			   if (capture != null) {
+    		        	
+    		        	captureIdLabel.setText(Integer.toString(capture.getCaptureId()));
+    		            timeStampLabel.setText(capture.getTimeStampString());
+    		        	trapDeviceIdLabel.setText(Integer.toString(capture.getTrapDeviceId()));
+    		        	positionLabel.setText(capture.getPosition());
+    		        	captureImage.setImage(matToImage(JavaFXGUI.repository.getCaptureImage(capture.getCaptureId())));
+    		        	classification.setText(capture.getClassString());
+    		        	
+
+    		        } else {
+
+    		        	captureIdLabel.setText("");
+    		            timeStampLabel.setText("");
+    		        	trapDeviceIdLabel.setText("");
+    		        	positionLabel.setText("");
+    		        	classification.setText("");
+
+    		        }
+    		//   }
+//    		});
+//    	
+       
+    }
+}
