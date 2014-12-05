@@ -59,7 +59,7 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 					}
 
 					channel.sendMessage(new Message(event.getMessage().getSender(), message));
-					connectEventDispatcher.dispatch(new ConnectEvent(ConnectEvent.NEW_TRAPDEVICE,new TrapDevice(1,"Hemma")));
+					connectEventDispatcher.dispatch(new ConnectEvent(ConnectEvent.NEW_TRAPDEVICE, new TrapDevice(1,"Hemma")));
 					log.info("New TrapDevice connected!");
 				}
 			});
@@ -73,7 +73,7 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 				}
 			});
 
-		}catch(Exception e){
+		}catch(Exception e){ 	
 			log.error("Error in CommunicatorServer. Cannot instantiate channel: " + e.getMessage());
 		}
 	}

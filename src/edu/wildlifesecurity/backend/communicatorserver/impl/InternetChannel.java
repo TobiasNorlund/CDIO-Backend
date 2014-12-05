@@ -9,11 +9,17 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
+import edu.wildlifesecurity.backend.communicatorserver.impl.InternetChannel.TrapDeviceConnection;
 import edu.wildlifesecurity.framework.EventDispatcher;
 import edu.wildlifesecurity.framework.EventType;
 import edu.wildlifesecurity.framework.IEventHandler;
@@ -32,7 +38,7 @@ import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
 public class InternetChannel extends AbstractChannel {
 	
 	private Thread listeningThread;
-	private List<TrapDeviceConnection> trapDeviceConnections;
+	private Map<Integer, TrapDeviceConnection> trapDeviceConnections;
 	private AsynchronousServerSocketChannel server;
 	private EventDispatcher<MessageEvent> messageEventDispatcher = new EventDispatcher<MessageEvent>();
 	private EventDispatcher<ConnectEvent> connectEventDispatcher = new EventDispatcher<ConnectEvent>();
@@ -56,7 +62,7 @@ public class InternetChannel extends AbstractChannel {
 
 	@Override
 	public void sendMessage(Message message) {
-		trapDeviceConnections.get(message.getReceiver()-1).sendMessage(message.getMessage());
+		trapDeviceConnections.get(message.getReceiver()).sendMessage(message.getMessage());
 	}
 
 	/**
@@ -71,7 +77,7 @@ public class InternetChannel extends AbstractChannel {
 			public void run() {
 				
 				try {
-					trapDeviceConnections =  new LinkedList<TrapDeviceConnection>();
+					trapDeviceConnections =  new HashMap<Integer,TrapDeviceConnection>();
 					server = AsynchronousServerSocketChannel.open();
 					server.bind(new InetSocketAddress(Integer.parseInt(configuration.get("CommunicatorServer_Port").toString())));
 					
@@ -88,9 +94,10 @@ public class InternetChannel extends AbstractChannel {
 				while(true){
 					
 					try {
-						TrapDeviceConnection connection = new TrapDeviceConnection(trapDeviceCounter++, server.accept().get(), messageEventDispatcher);
+						int id = trapDeviceCounter++;
+						TrapDeviceConnection connection = new TrapDeviceConnection(id, server.accept().get(), messageEventDispatcher);
 						
-						trapDeviceConnections.add(connection);
+						trapDeviceConnections.put(id, connection);
 						
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -110,13 +117,13 @@ public class InternetChannel extends AbstractChannel {
 	@Override
 	List<TrapDevice> getConnectedTrapDevices() {
 		List<TrapDevice> list = new LinkedList<TrapDevice>();
-		for(TrapDeviceConnection tdc : trapDeviceConnections)
-			list.add(tdc.getTrapDevice());
+		for(Entry<Integer,TrapDeviceConnection> tdc : trapDeviceConnections.entrySet())
+			list.add(tdc.getValue().getTrapDevice());
 		
 		return list;
 	}
 	
-	private class TrapDeviceConnection implements CompletionHandler<Integer, ByteBuffer> {
+	public class TrapDeviceConnection implements CompletionHandler<Integer, ByteBuffer> {
 		
 		private TrapDevice trapDevice;
 		private EventDispatcher<MessageEvent> eventDispatcher;
@@ -149,13 +156,15 @@ public class InternetChannel extends AbstractChannel {
 				//remove trap device that disconnect
 				//connectEventDispatcher.dispatch(new ConnectEvent(ConnectEvent.DISCONNECT_TRAPDEVICE,new TrapDevice(1,"Hemma")));
 
-				List<TrapDeviceConnection> toRemove = new ArrayList<TrapDeviceConnection>();
-				for (TrapDeviceConnection trapConnection: trapDeviceConnections){
-					if(trapConnection.getTrapDevice().id==trapDevice.id){
-						toRemove.add(trapConnection);
-					}
-				}
-				trapDeviceConnections.removeAll(toRemove);
+				Collection<TrapDeviceConnection> set = trapDeviceConnections.values();
+				Iterator<TrapDeviceConnection> itr = set.iterator();
+			    while (itr.hasNext())
+			    {
+			    	TrapDeviceConnection trapConnection = itr.next();
+			        if (trapConnection.getTrapDevice().id==trapDevice.id) {
+			        	itr.remove();
+			        }
+			    }
 				
 				return;
 			}
