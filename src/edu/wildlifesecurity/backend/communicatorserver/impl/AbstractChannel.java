@@ -45,4 +45,7 @@ public abstract class AbstractChannel {
 	 */
 	abstract List<TrapDevice> getConnectedTrapDevices();
 
+	abstract ISubscription addConnectEventHandler(EventType type,
+			IEventHandler<ConnectEvent> handler);
+
 }

@@ -284,8 +284,6 @@ public class FileRepository extends AbstractComponent implements IRepository {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			writer.println("<linked-list>");
-			writer.println("</linked-list>");
 			writer.close();
 			e.printStackTrace();
 		} catch (IOException e) {

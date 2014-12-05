@@ -9,6 +9,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
+import edu.wildlifesecurity.backend.sysinterface.gui.JavaFXGUI;
 import edu.wildlifesecurity.framework.AbstractComponent;
 import edu.wildlifesecurity.framework.EventDispatcher;
 import edu.wildlifesecurity.framework.EventType;
@@ -60,6 +61,15 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 					channel.sendMessage(new Message(event.getMessage().getSender(), message));
 					connectEventDispatcher.dispatch(new ConnectEvent(ConnectEvent.NEW_TRAPDEVICE,new TrapDevice(1,"Hemma")));
 					log.info("New TrapDevice connected!");
+				}
+			});
+			
+	    	channel.addConnectEventHandler(ConnectEvent.DISCONNECT_TRAPDEVICE, new IEventHandler<ConnectEvent>(){
+
+				@Override
+				public void handle(ConnectEvent arg0) {
+					connectEventDispatcher.dispatch(new ConnectEvent(ConnectEvent.DISCONNECT_TRAPDEVICE,arg0.getTrapDevice()));
+					
 				}
 			});
 

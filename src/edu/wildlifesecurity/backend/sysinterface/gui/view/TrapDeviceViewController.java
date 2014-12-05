@@ -8,6 +8,8 @@ import org.opencv.core.MatOfByte;
 import org.opencv.highgui.Highgui;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -31,6 +33,9 @@ public class TrapDeviceViewController {
     private Label positionLabel;
     @FXML
     private Label idLabel;
+    
+    private ObservableList<ViewableTrapDevice> trapDeviceData = FXCollections.observableArrayList();
+
 
  
 	
@@ -75,7 +80,23 @@ public class TrapDeviceViewController {
 				
 			}
 	
-});
+    	});
+    	JavaFXGUI.communicator.addConnectEventHandler(ConnectEvent.DISCONNECT_TRAPDEVICE, new IEventHandler<ConnectEvent>(){
+    		
+
+			@Override
+			public void handle(ConnectEvent event) {
+				Platform.runLater(new Runnable() {
+				    @Override
+				    public void run() {
+				    	reloadList();
+				    	System.out.println("List of TrapDevices updated");
+				    }
+				});
+				
+			}
+	
+    	});
         
         
 
@@ -107,8 +128,14 @@ public class TrapDeviceViewController {
     
     private void reloadList(){
     	//System.out.println(javaFXGUI.getTrapDeviceData());
+    	try{
+        	trapDeviceData=javaFXGUI.getTrapDeviceData();
+        }catch(Exception e){
+     	   System.out.println("no trapDevices found");
+        }
+
     	deviceTable.getItems().clear();
-    	deviceTable.setItems(javaFXGUI.getTrapDeviceData());
+    	deviceTable.setItems(trapDeviceData);
     	deviceIdColumn.setCellValueFactory(cellData -> cellData.getValue().trapDeviceIdProperty());
 
     }

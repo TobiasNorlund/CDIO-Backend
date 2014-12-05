@@ -12,12 +12,27 @@
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView fx:id="optionTable" editable="true" prefHeight="766.0" prefWidth="507.0">
-                    <columns>
-                      <TableColumn fx:id="optionsColumn" editable="false" prefWidth="281.0" text="Option" />
-                      <TableColumn fx:id="valueColumn" prefWidth="225.0" text="Value" />
-                    </columns>
-                  </TableView>
+                  <VBox prefHeight="768.0" prefWidth="507.0">
+                     <children>
+                        <HBox prefHeight="27.0" prefWidth="500.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="150.0" text="Trap device:" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="trapChooser" prefHeight="25.0" prefWidth="211.0" />
+                              <Button mnemonicParsing="false" onAction="#reloadTrapDevices" prefHeight="25.0" prefWidth="148.0" text="Reload Traps" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="optionTable" editable="true" prefHeight="735.0" prefWidth="500.0">
+                          <columns>
+                            <TableColumn fx:id="optionsColumn" editable="false" prefWidth="281.0" text="Option" />
+                            <TableColumn fx:id="valueColumn" prefWidth="225.0" text="Value" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
                </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="298.0" prefWidth="393.0">
 <children><Label layoutX="7.0" layoutY="6.0" text="Option description" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">

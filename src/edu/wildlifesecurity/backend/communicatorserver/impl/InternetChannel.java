@@ -8,6 +8,7 @@ import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,9 @@ public class InternetChannel extends AbstractChannel {
 	private List<TrapDeviceConnection> trapDeviceConnections;
 	private AsynchronousServerSocketChannel server;
 	private EventDispatcher<MessageEvent> messageEventDispatcher = new EventDispatcher<MessageEvent>();
+	private EventDispatcher<ConnectEvent> connectEventDispatcher = new EventDispatcher<ConnectEvent>();
+
+
 
 
 	public InternetChannel(ILogger logger, Map<String, Object> config) {
@@ -43,6 +47,10 @@ public class InternetChannel extends AbstractChannel {
 	@Override
 	public ISubscription addMessageEventHandler(EventType type, IEventHandler<MessageEvent> handler) {
 		return messageEventDispatcher.addEventHandler(type, handler);
+	}
+	@Override
+	public ISubscription addConnectEventHandler(EventType type, IEventHandler<ConnectEvent> handler) {
+		return connectEventDispatcher.addEventHandler(type, handler);
 	}
 	
 
@@ -133,9 +141,22 @@ public class InternetChannel extends AbstractChannel {
 				try {
 					connection.close();
 					log.warn("Connection to trap device " + trapDevice.id + " was lost");
+					connectEventDispatcher.dispatch(new ConnectEvent(ConnectEvent.DISCONNECT_TRAPDEVICE, this.trapDevice));
 				} catch (IOException e) {
 					log.error("Could not close connection to trap device " + trapDevice.id);
 				}
+				
+				//remove trap device that disconnect
+				//connectEventDispatcher.dispatch(new ConnectEvent(ConnectEvent.DISCONNECT_TRAPDEVICE,new TrapDevice(1,"Hemma")));
+
+				List<TrapDeviceConnection> toRemove = new ArrayList<TrapDeviceConnection>();
+				for (TrapDeviceConnection trapConnection: trapDeviceConnections){
+					if(trapConnection.getTrapDevice().id==trapDevice.id){
+						toRemove.add(trapConnection);
+					}
+				}
+				trapDeviceConnections.removeAll(toRemove);
+				
 				return;
 			}
 			buffer.flip();

@@ -37,10 +37,6 @@ public class JavaFXGUI extends Application implements ISystemInterface {
     private Thread guiThread;
     
     
-    
-    /**
-     * The data as an observable list of Persons.
-     */
     private ObservableList<ViewableCapture> captureData = FXCollections.observableArrayList();
     private ObservableList<ViewableTrapDevice> trapDeviceData = FXCollections.observableArrayList();
     private ObservableList<ViewableOption> optionData = FXCollections.observableArrayList();
@@ -54,10 +50,6 @@ public class JavaFXGUI extends Application implements ISystemInterface {
 
     }
 
-    /**
-     * Returns the data as an observable list of Persons. 
-     * @return
-     */
     
     public ObservableList<ViewableCapture> getCaptureData() {
     	 List<Capture> captures=new ArrayList<Capture>();
@@ -66,6 +58,7 @@ public class JavaFXGUI extends Application implements ISystemInterface {
          }catch(Exception e){
          	System.out.println("no captures found");
          }
+         captureData.clear();
          for (Capture c: captures)
          {
          	captureData.add(new ViewableCapture(c));
@@ -80,6 +73,8 @@ public class JavaFXGUI extends Application implements ISystemInterface {
         }catch(Exception e){
      	   System.out.println("no trapDevices found");
         }
+        trapDeviceData.clear();
+        trapDeviceData.add(new ViewableTrapDevice(14,"test"));
          for (TrapDevice t:trapDevices)
          {
          	trapDeviceData.add(new ViewableTrapDevice(t));
@@ -91,7 +86,7 @@ public class JavaFXGUI extends Application implements ISystemInterface {
         Map<String, Object> config=new HashMap<>();
         
         repository.loadConfiguration(config);
-        
+        optionData.clear();
         for (Entry<String, Object> entry : config.entrySet()) {
         	if (entry.getValue()!=null){
         		optionData.add(new ViewableOption(entry.getKey(),entry.getValue().toString()));
