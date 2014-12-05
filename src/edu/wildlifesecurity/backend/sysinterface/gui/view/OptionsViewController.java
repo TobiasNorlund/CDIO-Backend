@@ -134,7 +134,8 @@ public class OptionsViewController {
     
     private void loadConfig(Integer trapDevice) {
     	if (trapDevice!=null){
-    	  	  optionTable.setItems(javaFXGUI.getOptionData());
+    			optionTable.getItems().clear();
+    	  	  optionTable.setItems(javaFXGUI.getOptionData(trapDevice));
     	      optionsColumn.setCellValueFactory(cellData -> cellData.getValue().optionProperty());
     	      valueColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
     	      valueColumn.setCellFactory(TextFieldTableCell.<ViewableOption>forTableColumn());

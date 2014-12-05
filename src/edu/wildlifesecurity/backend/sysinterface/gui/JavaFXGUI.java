@@ -22,6 +22,7 @@ import edu.wildlifesecurity.backend.sysinterface.gui.model.ViewableTrapDevice;
 import edu.wildlifesecurity.backend.sysinterface.gui.view.TabController;
 import edu.wildlifesecurity.framework.IEventHandler;
 import edu.wildlifesecurity.framework.LogEvent;
+import edu.wildlifesecurity.framework.SurveillanceServerManager;
 import edu.wildlifesecurity.framework.actuator.IActuator;
 import edu.wildlifesecurity.framework.communicatorserver.ICommunicatorServer;
 import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
@@ -32,6 +33,7 @@ public class JavaFXGUI extends Application implements ISystemInterface {
 
 	static public IRepository repository;
 	static public ICommunicatorServer communicator;
+	static public SurveillanceServerManager manager;
     private Stage primaryStage;
     public BorderPane rootLayout;
     private Thread guiThread;
@@ -82,10 +84,10 @@ public class JavaFXGUI extends Application implements ISystemInterface {
         return trapDeviceData;
     }
     
-    public ObservableList<ViewableOption> getOptionData() {
+    public ObservableList<ViewableOption> getOptionData(Integer id) {
         Map<String, Object> config=new HashMap<>();
         
-        repository.loadConfiguration(config);
+        config=manager.getTrapDeviceConfiguration(id);
         optionData.clear();
         for (Entry<String, Object> entry : config.entrySet()) {
         	if (entry.getValue()!=null){
@@ -156,10 +158,11 @@ public class JavaFXGUI extends Application implements ISystemInterface {
 	}
 
 	@Override
-	public void link(IRepository repository, ICommunicatorServer communicator, IActuator actuator) {
+	public void link(IRepository repository, ICommunicatorServer communicator, IActuator actuator, SurveillanceServerManager manager) {
 
 		JavaFXGUI.repository=repository;
 		JavaFXGUI.communicator=communicator;
+		JavaFXGUI.manager=manager;
 
 		guiThread = new Thread(new Runnable(){
 
