@@ -73,7 +73,7 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 				}
 			});
 
-		}catch(Exception e){
+		}catch(Exception e){ 	
 			log.error("Error in CommunicatorServer. Cannot instantiate channel: " + e.getMessage());
 		}
 	}
