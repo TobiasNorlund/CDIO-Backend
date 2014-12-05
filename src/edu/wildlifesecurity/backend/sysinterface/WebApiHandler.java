@@ -22,6 +22,10 @@ import edu.wildlifesecurity.framework.Message.Commands;
 @Path("/api")
 public class WebApiHandler {
 	
+/*
+	@GET @Path("/config")
+	@Produces("text/xml")*/
+	
     @GET @Path("/config-option")
     @Produces("text/plain")
     public String getConfigOption(@QueryParam("o") String option) {

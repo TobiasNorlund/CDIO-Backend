@@ -1,7 +1,7 @@
 <configuration>
     
     <!-- MediaSource Component -->
-	<MediaSource_FrameRate>500</MediaSource_FrameRate>
+	<MediaSource_FrameRate>1000</MediaSource_FrameRate>
 	
 	<!-- Detection Component -->
 	<Detection_varThreshold>20</Detection_varThreshold>

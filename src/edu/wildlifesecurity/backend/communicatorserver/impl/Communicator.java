@@ -59,7 +59,7 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 					}
 
 					channel.sendMessage(new Message(event.getMessage().getSender(), message));
-					connectEventDispatcher.dispatch(new ConnectEvent(ConnectEvent.NEW_TRAPDEVICE,new TrapDevice(1,"Hemma")));
+					connectEventDispatcher.dispatch(new ConnectEvent(ConnectEvent.NEW_TRAPDEVICE,new TrapDevice(1,"Hemma"))); // TODO: Fix!
 					log.info("New TrapDevice connected!");
 				}
 			});
