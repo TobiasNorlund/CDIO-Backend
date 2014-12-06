@@ -7,8 +7,6 @@ import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,7 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import edu.wildlifesecurity.framework.EventDispatcher;
@@ -41,9 +38,6 @@ public class InternetChannel extends AbstractChannel {
 	private AsynchronousServerSocketChannel server;
 	private EventDispatcher<MessageEvent> messageEventDispatcher = new EventDispatcher<MessageEvent>();
 	private EventDispatcher<ConnectEvent> connectEventDispatcher = new EventDispatcher<ConnectEvent>();
-
-
-
 
 	public InternetChannel(ILogger logger, Map<String, Object> config) {
 		super(logger, config);
@@ -181,8 +175,7 @@ public class InternetChannel extends AbstractChannel {
 				try {
 					currentMessage += new String(new byte[] {b}, "UTF-8");
 				} catch (UnsupportedEncodingException e) {
-					System.out.println("Fel! " + e.getMessage());
-					e.printStackTrace();
+					log.error("Error in InternetChannel. Could not decode message to UTF-8 string. " + e.getMessage());
 				}
 			}
 			
@@ -202,7 +195,11 @@ public class InternetChannel extends AbstractChannel {
  
         public void sendMessage(String message){
         	try {
+        		// Write message
 				connection.write(ByteBuffer.wrap((message + "\n").getBytes())).get();
+				
+				// Send event
+				messageEventDispatcher.dispatch(new MessageEvent(MessageEvent.getEventType(message.split(",")[0]), new Message(trapDevice.id, message)));
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 				log.error("Error in InternetChannel. Could not send data to client: " + e.getMessage());
