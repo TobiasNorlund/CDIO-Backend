@@ -80,7 +80,7 @@ public class ViewableCapture {
     	this.captureId= new SimpleIntegerProperty(cap.id);
     	this.timeStamp= new SimpleObjectProperty<LocalDate>(cap.timeStamp.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
     	this.trapDeviceId = new SimpleIntegerProperty(cap.trapDeviceId);
-    	this.position= new SimpleStringProperty(cap.GPSPos);
+    	this.position= new SimpleStringProperty("Latitude: "+cap.latitude + " Longitude: " + cap.longitude);
     	this.image = new SimpleObjectProperty<Mat>(cap.regionImage);
     	this.timeStampString = new SimpleStringProperty(df.format(cap.timeStamp));
     	this.captureIdString = new SimpleStringProperty(Integer.toString(cap.id));

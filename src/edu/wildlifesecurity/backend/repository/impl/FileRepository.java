@@ -372,7 +372,8 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			Capture capture = (Capture) value;
 			writer.startNode("Capture");
 			writer.addAttribute("id", String.valueOf(capture.id));
-			writer.addAttribute("position", capture.GPSPos);
+			writer.addAttribute("longitude", String.valueOf(capture.longitude));
+			writer.addAttribute("latitude", String.valueOf(capture.latitude));
 			writer.addAttribute("timeStamp", new SimpleDateFormat(
 					"yyyy-MM-dd HH:mm:ss").format(capture));
 			writer.addAttribute("trapId", String.valueOf(capture.id));
@@ -389,7 +390,8 @@ public class FileRepository extends AbstractComponent implements IRepository {
 				try {
 					capture.id = Integer.parseInt(reader
 							.getAttribute("id"));
-					capture.GPSPos = reader.getAttribute("position");
+					capture.longitude = Double.parseDouble(reader.getAttribute("longitude"));
+					capture.latitude = Double.parseDouble(reader.getAttribute("latitude"));
 					capture.timeStamp = new SimpleDateFormat(
 							"yyyy-MM-dd HH:mm:ss").parse(reader
 							.getAttribute("timeStamp"));

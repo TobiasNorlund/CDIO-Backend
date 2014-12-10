@@ -53,16 +53,5 @@ public class FileRepositoryTest {
 		}
 		String test = fr.getLog(start);
 		System.out.println(test);
-
-		Capture c = new Capture();
-		c.id = 2;
-		c.trapDeviceId = 2;
-		c.GPSPos = "Hemma";
-		c.timeStamp = new Date();
-		c.regionImage = new Mat(1, 2, 3);
-
-		fr.storeCapture(c);
-
-		fr.dispose();
 	}
 }
