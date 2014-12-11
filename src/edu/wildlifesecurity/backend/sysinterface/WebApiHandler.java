@@ -2,8 +2,16 @@ package edu.wildlifesecurity.backend.sysinterface;
 
 
 import java.io.ByteArrayInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -13,18 +21,40 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.highgui.Highgui;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.naming.NoNameCoder;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+
 import edu.wildlifesecurity.framework.Message;
 import edu.wildlifesecurity.framework.Message.Commands;
+import edu.wildlifesecurity.framework.communicatorserver.TrapDevice;
+import edu.wildlifesecurity.framework.tracking.Capture;
 
 @Path("/api")
 public class WebApiHandler {
-	
-/*
+		
 	@GET @Path("/config")
-	@Produces("text/xml")*/
+	@Produces("text/xml")
+	public String getConfig(@DefaultValue("0") @QueryParam("trap") int trap){
+		NoNameCoder nameCoder = new NoNameCoder(); 
+		XStream magicApi = new XStream(new StaxDriver(nameCoder));
+		magicApi.registerConverter(new edu.wildlifesecurity.backend.MapEntryConverter());
+		magicApi.alias("configuration", Map.class);
+
+		Map<String, Object> map;
+		if(trap == 0){
+			map = new HashMap<String, Object>();
+			WebApiInterface.getInstance().getRepository().loadConfiguration(map);
+		}else{
+			map = WebApiInterface.getInstance().getManager().getTrapDeviceConfiguration(trap);
+		}
+		return magicApi.toXML(map);
+		
+	}
 	
     @GET @Path("/config-option")
     @Produces("text/plain")
@@ -65,15 +95,22 @@ public class WebApiHandler {
     }
 
     @GET @Path("trap-devices")
-    @Produces("text/plain")
+    @Produces("text/xml")
     public String getTrapDevices() {
-        return WebApiInterface.getInstance().getCommunicator().getConnectedTrapDevices().toString();
+    	XStream magicApi = new XStream();
+		magicApi.alias("TrapDevices", LinkedList.class);
+		magicApi.alias("TrapDevice", TrapDevice.class);
+        return magicApi.toXML(WebApiInterface.getInstance().getCommunicator().getConnectedTrapDevices());
     }
     
     @GET @Path("captures")
     @Produces("text/plain")
     public String getCaptures() {
-        return WebApiInterface.getInstance().getRepository().getCaptureDefinitions().toString();
+    	XStream magicApi = new XStream();
+		magicApi.alias("Captures", LinkedList.class);
+		magicApi.alias("Capture", Capture.class);
+		magicApi.denyTypes(new Class[] { Mat.class });
+        return magicApi.toXML(WebApiInterface.getInstance().getRepository().getCaptureDefinitions());
     }
     
     @GET @Path("capture-image")

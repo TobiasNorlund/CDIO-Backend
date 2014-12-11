@@ -54,4 +54,8 @@ public class WebApiInterface implements ISystemInterface {
 	public IActuator getActuator(){
 		return actuator;
 	}
+	
+	public SurveillanceServerManager getManager(){
+		return manager;
+	}
 }

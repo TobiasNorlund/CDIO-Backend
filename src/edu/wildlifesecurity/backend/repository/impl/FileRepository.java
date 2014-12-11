@@ -41,6 +41,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
 
+import edu.wildlifesecurity.backend.MapEntryConverter;
 import edu.wildlifesecurity.framework.AbstractComponent;
 import edu.wildlifesecurity.framework.EventDispatcher;
 import edu.wildlifesecurity.framework.EventType;
@@ -317,48 +318,6 @@ public class FileRepository extends AbstractComponent implements IRepository {
 	public void setConfigOption(String option, String value) {
 		configuration.put(option, value);
 		saveConfiguration();
-	}
-
-	private static class MapEntryConverter implements Converter {
-
-		public boolean canConvert(Class clazz) {
-			return AbstractMap.class.isAssignableFrom(clazz);
-		}
-
-		public void marshal(Object value, HierarchicalStreamWriter writer,
-				MarshallingContext context) {
-
-			AbstractMap map = (AbstractMap) value;
-			for (Object obj : map.entrySet()) {
-				Map.Entry entry = (Map.Entry) obj;
-				String option = entry.getKey().toString();
-				
-				writer.startNode(option);
-				writer.setValue(entry.getValue().toString());
-				writer.endNode();
-			}
-
-		}
-
-		public Object unmarshal(HierarchicalStreamReader reader,
-				UnmarshallingContext context) {
-
-			Map<String, String> map = new HashMap<String, String>();
-
-			while (reader.hasMoreChildren()) {
-				reader.moveDown();
-
-				String key = reader.getNodeName(); // nodeName aka element's
-													// name
-				String value = reader.getValue();
-				map.put(key, value);
-
-				reader.moveUp();
-			}
-
-			return map;
-		}
-
 	}
 
 	private static class CaptureConverter implements Converter {
