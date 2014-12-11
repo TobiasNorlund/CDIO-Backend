@@ -117,7 +117,7 @@ public class WebApiHandler {
     @Produces("image/jpeg")
     public Response getCaptureImage(@QueryParam("id") int id) {
     	MatOfByte mob = new MatOfByte();
-    	Highgui.imencode("jpg", WebApiInterface.getInstance().getRepository().getCaptureImage(id), mob);
+    	Highgui.imencode(".jpg", WebApiInterface.getInstance().getRepository().getCaptureImage(id), mob);
     	
     	return Response.ok(new ByteArrayInputStream(mob.toArray())).build();
     }

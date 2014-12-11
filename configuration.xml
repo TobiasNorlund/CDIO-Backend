@@ -40,9 +40,9 @@
 	<!-- ... ex tracking parameters -->
 	
 	<!-- Actuator Component -->
-	<Actuator_IP></Actuator_IP>
-	<Actuator_Port>1234</Actuator_Port>
-	<Actuator_Message></Actuator_Message>
+	<Actuator_IP>130.236.227.186</Actuator_IP>
+	<Actuator_Port>9090</Actuator_Port>
+	<Actuator_Message>Alarm! Rhino deteced, watch your back!</Actuator_Message>
 	<Actuator_GuardNumber></Actuator_GuardNumber>
 	<Actuator_Password></Actuator_Password>
 	
