@@ -65,7 +65,7 @@ public class Communicator extends AbstractComponent implements ICommunicatorServ
 			});
 			
 	    	channel.addConnectEventHandler(ConnectEvent.DISCONNECT_TRAPDEVICE, new IEventHandler<ConnectEvent>(){
-
+	    	
 				@Override
 				public void handle(ConnectEvent arg0) {
 					connectEventDispatcher.dispatch(new ConnectEvent(ConnectEvent.DISCONNECT_TRAPDEVICE,arg0.getTrapDevice()));

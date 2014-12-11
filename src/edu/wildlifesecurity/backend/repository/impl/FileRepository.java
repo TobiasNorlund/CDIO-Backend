@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
+import org.opencv.imgproc.Imgproc;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.Converter;
@@ -120,6 +121,7 @@ public class FileRepository extends AbstractComponent implements IRepository {
 			fw.close();
 
 			if (capture.regionImage != null) {
+				Imgproc.cvtColor(capture.regionImage, capture.regionImage, Imgproc.COLOR_RGB2BGR); 
 				Highgui.imwrite(getPath(capture.id), capture.regionImage); // this is wrong now
 			}
 		} catch (IOException e) {
