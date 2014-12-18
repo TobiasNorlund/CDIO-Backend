@@ -45,6 +45,9 @@ public abstract class AbstractChannel {
 	 */
 	abstract List<TrapDevice> getConnectedTrapDevices();
 
+	/**
+	 * Notifies listeners when a new TrapDevice has connected or disconnected
+	 */
 	abstract ISubscription addConnectEventHandler(EventType type,
 			IEventHandler<ConnectEvent> handler);
 
